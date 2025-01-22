@@ -1,0 +1,239 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --accent-color: #00ffbb;
+  --accent-dark: #00cc96;
+  color-scheme: dark;
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem; /* Add padding for fixed header */
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  @apply bg-background-dark text-text-light;
+}
+
+.gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-accent to-accent-dark;
+}
+
+/* Section spacing and transitions */
+section {
+  position: relative;
+  overflow: hidden;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+section:first-of-type {
+  padding-top: 0;
+}
+
+.container {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+/* Smooth transitions */
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+/* Section backgrounds */
+.bg-gradient-dark {
+  background: linear-gradient(to bottom right, var(--tw-gradient-from), var(--tw-gradient-to));
+  @apply from-background-darker to-background-dark;
+}
+
+/* Improved spacing for content */
+.content-wrapper {
+  @apply max-w-4xl mx-auto;
+}
+
+.section-padding {
+  @apply py-20;
+}
+
+.section-title {
+  @apply text-4xl font-bold mb-4;
+}
+
+.section-subtitle {
+  @apply text-text-dark text-lg mb-12;
+}
+
+/* Card layouts */
+.card {
+  @apply bg-surface-card backdrop-blur-xs rounded-2xl border border-accent/10 p-6 transition-all duration-300;
+}
+
+.card:hover {
+  @apply border-accent/20 transform scale-[1.02];
+}
+
+/* Grid layouts */
+.grid-layout {
+  @apply grid gap-8;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+/* Responsive text */
+@screen md {
+  .text-responsive {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+  }
+}
+
+/* Navigation styles */
+.nav-link {
+  @apply text-text-dark hover:text-accent transition-colors;
+}
+
+.nav-link.active {
+  @apply text-accent;
+}
+
+/* Animation utilities */
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scroll behavior */
+.smooth-scroll {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-background-darker;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-accent/20 rounded-full hover:bg-accent/30;
+}
+
+/* Active navigation indicator */
+.nav-link.active {
+  @apply text-accent;
+}
+
+/* Image effects */
+.img-hover-rotate {
+  transition: transform 0.3s ease-in-out;
+}
+
+.img-hover-rotate:hover {
+  transform: rotate(3deg) scale(1.02);
+}
+
+/* Glow Effects */
+.glow-effect {
+  box-shadow: 0 0 15px rgba(7, 7, 7, 0.1);
+  transition: all 0.3s ease;
+}
+
+.glow-effect:hover {
+  box-shadow: 0 0 30px rgba(7, 7, 7, 0.2);
+}
+
+.dark .glow-effect {
+  box-shadow: 0 0 15px rgba(96, 165, 250, 0.1);
+}
+
+.dark .glow-effect:hover {
+  box-shadow: 0 0 30px rgba(96, 165, 250, 0.15);
+}
+
+.gradient-glow {
+  position: relative;
+}
+
+.gradient-glow::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit;
+  z-index: -1;
+  background: linear-gradient(to right, #2563eb, #9333ea);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.gradient-glow:hover::after {
+  opacity: 0.1;
+}
+
+/* Section heights */
+.h-section {
+  min-height: 100vh;
+}
+
+/* Custom utilities */
+.backdrop-blur-xs {
+  backdrop-filter: blur(4px);
+}
+
+.shadow-card {
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.2);
+}
+
+/* Hover Effects */
+.hover-lift {
+  transition: transform 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-8px);
+}
+
+/* Text Gradient */
+.text-gradient {
+  background: linear-gradient(to right, var(--accent-color), var(--accent-dark));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Custom Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Glowing Effect */
+.glow {
+  box-shadow: 0 0 20px rgba(37, 99, 235, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.glow:hover {
+  box-shadow: 0 0 30px rgba(37, 99, 235, 0.2);
+}

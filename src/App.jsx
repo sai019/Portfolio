@@ -783,11 +783,23 @@ function App() {
 
       <main>
         <HeroSection />
+        <div className="border-b border-accent/10"></div>
+        
         <AboutSection />
+        <div className="border-b border-accent/10"></div>
+        
         <SkillsSection />
+        <div className="border-b border-accent/10"></div>
+        
         <ProjectsSection />
+        <div className="border-b border-accent/10"></div>
+        
         <ExperienceSection />
+        <div className="border-b border-accent/10"></div>
+        
         <CertificationsSection />
+        <div className="border-b border-accent/10"></div>
+        
         <ContactSection />
       </main>
 

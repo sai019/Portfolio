@@ -611,10 +611,9 @@ function ContactSection() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-4xl font-bold mb-4">Let's Connect
-            </h2>
+            <h2 className="text-4xl font-bold mb-4">Let's Connect</h2>
             <p className="text-text-dark text-lg">
-            Feel free to get in touch with me. I am always open to discussing new projects, creative ideas or opportunities to be part of your visions.
+              Feel free to get in touch with me. I am always open to discussing new projects, creative ideas or opportunities to be part of your visions.
             </p>
           </motion.div>
 
@@ -626,29 +625,40 @@ function ContactSection() {
           >
             <div className="grid gap-6">
               <a href="mailto:john.doe@example.com" 
-                 className="flex items-center space-x-4 text-text-dark hover:text-accent transition-colors group">
-                <div className="p-3 bg-surface-dark rounded-xl border border-accent/10 group-hover:border-accent/20 transition-colors">
-                  <FaEnvelope className="w-6 h-6" />
+                 className="flex flex-col space-y-2 text-text-dark hover:text-accent transition-colors group">
+                <div className="flex items-center space-x-4">
+                  <div className="p-3 bg-surface-dark rounded-xl border border-accent/10 group-hover:border-accent/20 transition-colors">
+                    <FaEnvelope className="w-6 h-6" />
+                  </div>
+                  <span>Email</span>
                 </div>
-                <span>Email</span>
+                <span className="pl-14 text-sm text-text-dark">john.doe@example.com</span>
               </a>
+
               <a href="https://github.com/yourusername" 
                  target="_blank" 
                  rel="noopener noreferrer" 
-                 className="flex items-center space-x-4 text-text-dark hover:text-accent transition-colors group">
-                <div className="p-3 bg-surface-dark rounded-xl border border-accent/10 group-hover:border-accent/20 transition-colors">
-                  <FaGithub className="w-6 h-6" />
+                 className="flex flex-col space-y-2 text-text-dark hover:text-accent transition-colors group">
+                <div className="flex items-center space-x-4">
+                  <div className="p-3 bg-surface-dark rounded-xl border border-accent/10 group-hover:border-accent/20 transition-colors">
+                    <FaGithub className="w-6 h-6" />
+                  </div>
+                  <span>GitHub</span>
                 </div>
-                <span>GitHub</span>
+                <span className="pl-14 text-sm text-text-dark">github.com/yourusername</span>
               </a>
+
               <a href="https://linkedin.com/in/yourusername" 
                  target="_blank" 
                  rel="noopener noreferrer" 
-                 className="flex items-center space-x-4 text-text-dark hover:text-accent transition-colors group">
-                <div className="p-3 bg-surface-dark rounded-xl border border-accent/10 group-hover:border-accent/20 transition-colors">
-                  <FaLinkedin className="w-6 h-6" />
+                 className="flex flex-col space-y-2 text-text-dark hover:text-accent transition-colors group">
+                <div className="flex items-center space-x-4">
+                  <div className="p-3 bg-surface-dark rounded-xl border border-accent/10 group-hover:border-accent/20 transition-colors">
+                    <FaLinkedin className="w-6 h-6" />
+                  </div>
+                  <span>LinkedIn</span>
                 </div>
-                <span>LinkedIn</span>
+                <span className="pl-14 text-sm text-text-dark">linkedin.com/in/yourusername</span>
               </a>
             </div>
           </motion.div>

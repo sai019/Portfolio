@@ -30,6 +30,13 @@ import {
   SiSnowflake
 } from 'react-icons/si';
 
+const standardMotion = {
+  initial: { opacity: 0, y: 20 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true },
+  transition: { duration: 0.5 }
+};
+
 // New components for enhanced visual design
 function HeroSection() {
   return (
@@ -189,17 +196,6 @@ function ProjectCard({ project, onClick }) {
       whileHover={{ y: -5 }}
       transition={{ type: "spring", stiffness: 300 }}
     >
-      {/* Click Indicator */}
-      <div className="absolute top-4 right-4 text-accent opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-2">
-        <span className="text-sm">Click to view details</span>
-        <motion.div 
-          animate={{ x: [0, 5, 0] }} 
-          transition={{ repeat: Infinity, duration: 1.5 }}
-        >
-          →
-        </motion.div>
-      </div>
-
       <h3 className="text-xl font-bold mb-3 text-text-light group-hover:text-accent transition-all duration-300">
         {project.title}
       </h3>
@@ -251,8 +247,8 @@ function ScrollProgress() {
       setScroll(scroll);
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addListener('scroll', handleScroll);
+    return () => window.removeListener('scroll', handleScroll);
   }, []);
 
   return (
@@ -345,60 +341,48 @@ function SkillsSection() {
   ];
 
   return (
-    <section id="skills" className="py-20 bg-background-dark">
-      <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-12"
-        >
-          <h2 className="text-4xl font-bold mb-4">Technical Skills</h2>
-          <p className="text-text-dark text-lg">Core technologies I work with</p>
-        </motion.div>
-        
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-surface-card p-8 rounded-2xl border border-accent/10">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 relative">
-              {skills.map((skill, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="relative"
-                >
-                  <a 
-                    href={skill.websiteUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center space-x-4 group p-4 hover:bg-surface-dark rounded-xl transition-all duration-300"
-                  >
-                    <div className="text-accent group-hover:scale-110 transition-transform duration-300">
-                      {skill.icon}
-                    </div>
-                    <h3 className="text-lg font-semibold group-hover:text-accent transition-colors">
-                      {skill.title}
-                    </h3>
-                  </a>
-                  
-                  {/* Vertical separator line */}
-                  {(index + 1) % 3 !== 0 && index !== skills.length - 1 && (
-                    <div className="absolute right-0 top-0 h-full w-px bg-accent/10"></div>
-                  )}
-                  
-                  {/* Horizontal separator line */}
-                  {index < skills.length - 3 && (
-                    <div className="absolute bottom-0 left-0 w-full h-px bg-accent/10"></div>
-                  )}
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </div>
+    <StandardSection
+      id="skills"
+      title="Technical Skills"
+      description="Core technologies I work with"
+    >
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 relative">
+        {skills.map((skill, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
+            className="relative"
+          >
+            <a 
+              href={skill.websiteUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center space-x-4 group p-4 hover:bg-surface-dark rounded-xl transition-all duration-300"
+            >
+              <div className="text-accent group-hover:scale-110 transition-transform duration-300">
+                {skill.icon}
+              </div>
+              <h3 className="text-lg font-semibold group-hover:text-accent transition-colors">
+                {skill.title}
+              </h3>
+            </a>
+            
+            {/* Vertical separator line */}
+            {(index + 1) % 3 !== 0 && index !== skills.length - 1 && (
+              <div className="absolute right-0 top-0 h-full w-px bg-accent/10"></div>
+            )}
+            
+            {/* Horizontal separator line */}
+            {index < skills.length - 3 && (
+              <div className="absolute bottom-0 left-0 w-full h-px bg-accent/10"></div>
+            )}
+          </motion.div>
+        ))}
       </div>
-    </section>
+    </StandardSection>
   );
 }
 
@@ -428,46 +412,38 @@ function CertificationsSection() {
   ];
 
   return (
-    <section className="py-20 bg-background-darker">
-      <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-12"
-        >
-          <h2 className="text-4xl font-bold mb-4">Certifications</h2>
-          <p className="text-text-dark text-lg">Professional certifications and achievements</p>
-        </motion.div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          {certifications.map((cert, index) => (
-            <motion.a
-              key={index}
-              href={cert.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="bg-surface-card p-6 rounded-2xl border border-accent/10 hover:border-accent/20 transition-colors group"
-            >
-              <div className="flex items-center space-x-4 mb-4">
-                <div className="p-3 bg-surface-dark rounded-xl border border-accent/10 group-hover:border-accent/20 transition-colors">
-                  {cert.icon}
-                </div>
-                <div className="flex-1">
-                  <h3 className="font-semibold text-text-light group-hover:text-accent transition-colors">{cert.title}</h3>
-                  <p className="text-text-dark text-sm">{cert.issuer}</p>
-                </div>
+    <StandardSection
+      id="certifications"
+      title="Certifications"
+      description="Professional certifications and achievements"
+    >
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        {certifications.map((cert, index) => (
+          <motion.a
+            key={index}
+            href={cert.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: index * 0.1 }}
+            className="bg-surface-card p-6 rounded-2xl border border-accent/10 hover:border-accent/20 transition-colors group"
+          >
+            <div className="flex items-center space-x-4 mb-4">
+              <div className="p-3 bg-surface-dark rounded-xl border border-accent/10 group-hover:border-accent/20 transition-colors">
+                {cert.icon}
               </div>
-              <p className="text-text-dark text-sm">{cert.date}</p>
-            </motion.a>
-          ))}
-        </div>
+              <div className="flex-1">
+                <h3 className="font-semibold text-text-light group-hover:text-accent transition-colors">{cert.title}</h3>
+                <p className="text-text-dark text-sm">{cert.issuer}</p>
+              </div>
+            </div>
+            <p className="text-text-dark text-sm">{cert.date}</p>
+          </motion.a>
+        ))}
       </div>
-    </section>
+    </StandardSection>
   );
 }
 
@@ -496,25 +472,27 @@ function MetricsSection() {
   ];
 
   return (
-    <section className="py-20 bg-background-darker">
+    <section className="py-20 bg-background-dark">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-5xl mx-auto">
-          {metrics.map((metric, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="text-center"
-            >
-              <div className="inline-flex items-center justify-center w-12 h-12 mb-4 bg-surface-card rounded-xl border border-accent/10">
-                {metric.icon}
-              </div>
-              <h3 className="text-3xl font-bold text-text-light mb-2">{metric.value}</h3>
-              <p className="text-text-dark">{metric.title}</p>
-            </motion.div>
-          ))}
+        <div className="max-w-4xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-5xl mx-auto">
+            {metrics.map((metric, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="text-center"
+              >
+                <div className="inline-flex items-center justify-center w-12 h-12 mb-4 bg-surface-card rounded-xl border border-accent/10">
+                  {metric.icon}
+                </div>
+                <h3 className="text-3xl font-bold text-text-light mb-2">{metric.value}</h3>
+                <p className="text-text-dark">{metric.title}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -548,62 +526,50 @@ function ExperienceSection() {
   ];
 
   return (
-    <section id="experience" className="py-20 bg-background-dark">
-      <div className="container mx-auto px-4">
+    <StandardSection
+      id="experience"
+      title="Work Experience"
+      description="Professional journey in data engineering"
+    >
+      {experiences.map((exp, index) => (
         <motion.div
+          key={index}
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          transition={{ delay: index * 0.1 }}
+          className="group/experience"
         >
-          <h2 className="text-4xl font-bold mb-4">Work Experience</h2>
-          <p className="text-text-dark text-lg">Professional journey in data engineering</p>
-        </motion.div>
-
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-surface-card p-8 rounded-2xl border border-accent/10">
-            {experiences.map((exp, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="group/experience"
-              >
-                <div className="mb-8">
-                  <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
-                    <div>
-                      <h3 className="text-xl font-semibold text-text-light group-hover/experience:text-accent group-hover/experience:glow transition-all duration-300">
-                        {exp.position}
-                      </h3>
-                      <p className="text-accent">
-                        {exp.company}
-                      </p>
-                    </div>
-                    <p className="text-text-dark mt-2 md:mt-0 group-hover/experience:text-accent group-hover/experience:glow transition-all duration-300">
-                      {exp.period}
-                    </p>
-                  </div>
-                  <p className="text-text-dark mb-4">{exp.description}</p>
-                  <ul className="space-y-2">
-                    {exp.achievements.map((achievement, i) => (
-                      <li key={i} className="flex items-start space-x-3 group/item hover:text-accent transition-colors">
-                        <span className="w-2 h-2 mt-2 rounded-full bg-text-light group-hover/item:bg-accent group-hover/item:glow transition-all duration-300 flex-shrink-0"></span>
-                        <span className="text-text-light">{achievement}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                {index < experiences.length - 1 && (
-                  <div className="border-b border-accent/10 mb-8"></div>
-                )}
-              </motion.div>
-            ))}
+          <div className="mb-8">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
+              <div>
+                <h3 className="text-xl font-semibold text-text-light group-hover/experience:text-accent group-hover/experience:glow transition-all duration-300">
+                  {exp.position}
+                </h3>
+                <p className="text-accent">
+                  {exp.company}
+                </p>
+              </div>
+              <p className="text-text-dark mt-2 md:mt-0 group-hover/experience:text-accent group-hover/experience:glow transition-all duration-300">
+                {exp.period}
+              </p>
+            </div>
+            <p className="text-text-dark mb-4">{exp.description}</p>
+            <ul className="space-y-2">
+              {exp.achievements.map((achievement, i) => (
+                <li key={i} className="flex items-start space-x-3 group/item hover:text-accent transition-colors">
+                  <span className="w-2 h-2 mt-2 rounded-full bg-text-light group-hover/item:bg-accent group-hover/item:glow transition-all duration-300 flex-shrink-0"></span>
+                  <span className="text-text-light">{achievement}</span>
+                </li>
+              ))}
+            </ul>
           </div>
-        </div>
-      </div>
-    </section>
+          {index < experiences.length - 1 && (
+            <div className="border-b border-accent/10 mb-8"></div>
+          )}
+        </motion.div>
+      ))}
+    </StandardSection>
   );
 }
 
@@ -629,34 +595,26 @@ function ProjectsSection() {
   ];
 
   return (
-    <section id="projects" className="py-20 bg-background-darker">
-      <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-12"
-        >
-          <h2 className="text-4xl font-bold mb-4">Featured Projects</h2>
-          <p className="text-text-dark text-lg">Click on a project to learn more</p>
-        </motion.div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {projects.map((project, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-            >
-              <ProjectCard 
-                project={project} 
-                onClick={() => setSelectedProject(project)} 
-              />
-            </motion.div>
-          ))}
-        </div>
+    <StandardSection
+      id="projects"
+      title="Featured Projects"
+      description="Click on a project to learn more"
+    >
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {projects.map((project, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
+          >
+            <ProjectCard 
+              project={project} 
+              onClick={() => setSelectedProject(project)} 
+            />
+          </motion.div>
+        ))}
       </div>
 
       <ProjectModal 
@@ -664,158 +622,136 @@ function ProjectsSection() {
         isOpen={!!selectedProject}
         onClose={() => setSelectedProject(null)}
       />
-    </section>
+    </StandardSection>
   );
 }
 
 function ContactSection() {
   return (
-    <section id="contact" className="py-20 bg-background-dark">
-      <div className="container mx-auto px-4">
-        <div className="max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-4xl font-bold mb-4">Let's Connect</h2>
-            <p className="text-text-dark text-lg">
-              Feel free to get in touch with me. I am always open to discussing new projects, creative ideas or opportunities.
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Email Contact Box */}
-            <motion.a
-              href="mailto:john.doe@example.com"
-              whileHover={{ y: -5 }}
-              className="group block p-6 bg-surface-card backdrop-blur-xs rounded-2xl border border-accent/10 shadow-card hover:shadow-xl transition-all duration-300 glow-effect"
-            >
-              <div className="flex flex-col items-center text-center space-y-4">
-                <div className="p-4 bg-surface-dark rounded-full border border-accent/10 group-hover:border-accent group-hover:glow transition-all duration-300">
-                  <FaEnvelope className="w-8 h-8 text-accent group-hover:text-accent group-hover:animate-pulse" />
-                </div>
-                <h3 className="text-xl font-semibold text-text-light">Email</h3>
-                <p className="text-text-dark text-sm group-hover:text-accent transition-colors">john.doe@example.com</p>
-              </div>
-            </motion.a>
-
-            {/* GitHub Contact Box */}
-            <motion.a
-              href="https://github.com/yourusername"
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ y: -5 }}
-              className="group block p-6 bg-surface-card backdrop-blur-xs rounded-2xl border border-accent/10 shadow-card hover:shadow-xl transition-all duration-300 glow-effect"
-            >
-              <div className="flex flex-col items-center text-center space-y-4">
-                <div className="p-4 bg-surface-dark rounded-full border border-accent/10 group-hover:border-accent group-hover:glow transition-all duration-300">
-                  <FaGithub className="w-8 h-8 text-accent group-hover:text-accent group-hover:animate-pulse" />
-                </div>
-                <h3 className="text-xl font-semibold text-text-light">GitHub</h3>
-                <p className="text-text-dark text-sm group-hover:text-accent transition-colors">github.com/yourusername</p>
-              </div>
-            </motion.a>
-
-            {/* LinkedIn Contact Box */}
-            <motion.a
-              href="https://linkedin.com/in/yourusername"
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ y: -5 }}
-              className="group block p-6 bg-surface-card backdrop-blur-xs rounded-2xl border border-accent/10 shadow-card hover:shadow-xl transition-all duration-300 glow-effect"
-            >
-              <div className="flex flex-col items-center text-center space-y-4">
-                <div className="p-4 bg-surface-dark rounded-full border border-accent/10 group-hover:border-accent group-hover:glow transition-all duration-300">
-                  <FaLinkedin className="w-8 h-8 text-accent group-hover:text-accent group-hover:animate-pulse" />
-                </div>
-                <h3 className="text-xl font-semibold text-text-light">LinkedIn</h3>
-                <p className="text-text-dark text-sm group-hover:text-accent transition-colors">linkedin.com/in/yourusername</p>
-              </div>
-            </motion.a>
+    <StandardSection
+      id="contact"
+      title="Let's Connect"
+      description="Feel free to get in touch with me. I am always open to discussing new projects, creative ideas or opportunities."
+    >
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Email Contact Box */}
+        <motion.a
+          href="mailto:john.doe@example.com"
+          whileHover={{ y: -5 }}
+          className="group block p-6 bg-surface-card backdrop-blur-xs rounded-2xl border border-accent/10 shadow-card hover:shadow-xl transition-all duration-300 glow-effect"
+        >
+          <div className="flex flex-col items-center text-center space-y-4">
+            <div className="p-4 bg-surface-dark rounded-full border border-accent/10 group-hover:border-accent group-hover:glow transition-all duration-300">
+              <FaEnvelope className="w-8 h-8 text-accent group-hover:text-accent group-hover:animate-pulse" />
+            </div>
+            <h3 className="text-xl font-semibold text-text-light">Email</h3>
+            <p className="text-text-dark text-sm group-hover:text-accent transition-colors">john.doe@example.com</p>
           </div>
-        </div>
+        </motion.a>
+
+        {/* GitHub Contact Box */}
+        <motion.a
+          href="https://github.com/yourusername"
+          target="_blank"
+          rel="noopener noreferrer"
+          whileHover={{ y: -5 }}
+          className="group block p-6 bg-surface-card backdrop-blur-xs rounded-2xl border border-accent/10 shadow-card hover:shadow-xl transition-all duration-300 glow-effect"
+        >
+          <div className="flex flex-col items-center text-center space-y-4">
+            <div className="p-4 bg-surface-dark rounded-full border border-accent/10 group-hover:border-accent group-hover:glow transition-all duration-300">
+              <FaGithub className="w-8 h-8 text-accent group-hover:text-accent group-hover:animate-pulse" />
+            </div>
+            <h3 className="text-xl font-semibold text-text-light">GitHub</h3>
+            <p className="text-text-dark text-sm group-hover:text-accent transition-colors">github.com/yourusername</p>
+          </div>
+        </motion.a>
+
+        {/* LinkedIn Contact Box */}
+        <motion.a
+          href="https://linkedin.com/in/yourusername"
+          target="_blank"
+          rel="noopener noreferrer"
+          whileHover={{ y: -5 }}
+          className="group block p-6 bg-surface-card backdrop-blur-xs rounded-2xl border border-accent/10 shadow-card hover:shadow-xl transition-all duration-300 glow-effect"
+        >
+          <div className="flex flex-col items-center text-center space-y-4">
+            <div className="p-4 bg-surface-dark rounded-full border border-accent/10 group-hover:border-accent group-hover:glow transition-all duration-300">
+              <FaLinkedin className="w-8 h-8 text-accent group-hover:text-accent group-hover:animate-pulse" />
+            </div>
+            <h3 className="text-xl font-semibold text-text-light">LinkedIn</h3>
+            <p className="text-text-dark text-sm group-hover:text-accent transition-colors">linkedin.com/in/yourusername</p>
+          </div>
+        </motion.a>
       </div>
-    </section>
+    </StandardSection>
   );
 }
 
 function AboutSection() {
   return (
-    <section id="about" className="py-20 bg-background-dark">
-      <div className="container mx-auto px-4">
+    <StandardSection
+      id="about"
+      title="About Me"
+      description="I am a Senior Data Engineer with over 5 years of experience in building scalable data solutions. 
+      Specializing in designing and implementing robust data pipelines, warehousing solutions, and 
+      real-time analytics platforms."
+    >
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          className="max-w-4xl mx-auto text-center mb-12"
+          className="bg-surface-card p-6 rounded-2xl border border-accent/10"
         >
-          <h2 className="text-4xl font-bold mb-4">About Me</h2>
-          <p className="text-text-dark text-lg leading-relaxed">
-            I am a Senior Data Engineer with over 5 years of experience in building scalable data solutions. 
-            Specializing in designing and implementing robust data pipelines, warehousing solutions, and 
-            real-time analytics platforms.
-          </p>
+          <h3 className="text-xl font-semibold mb-4 text-accent">What I Do</h3>
+          <ul className="space-y-3 text-text-dark">
+            <li className="flex items-start space-x-3 group/item">
+              <span className="w-2 h-2 mt-2 rounded-full bg-text-light group-hover/item:bg-accent group-hover/item:glow transition-all duration-300 flex-shrink-0"></span>
+              <span className="text-text-light">Design and implement scalable data architectures</span>
+            </li>
+            <li className="flex items-start space-x-3 group/item">
+              <span className="w-2 h-2 mt-2 rounded-full bg-text-light group-hover/item:bg-accent group-hover/item:glow transition-all duration-300 flex-shrink-0"></span>
+              <span className="text-text-light">Build and optimize ETL/ELT pipelines</span>
+            </li>
+            <li className="flex items-start space-x-3 group/item">
+              <span className="w-2 h-2 mt-2 rounded-full bg-text-light group-hover/item:bg-accent group-hover/item:glow transition-all duration-300 flex-shrink-0"></span>
+              <span className="text-text-light">Develop real-time data processing solutions</span>
+            </li>
+            <li className="flex items-start space-x-3 group/item">
+              <span className="w-2 h-2 mt-2 rounded-full bg-text-light group-hover/item:bg-accent group-hover/item:glow transition-all duration-300 flex-shrink-0"></span>
+              <span className="text-text-light">Implement data quality and testing frameworks</span>
+            </li>
+          </ul>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="bg-surface-card p-6 rounded-2xl border border-accent/10"
-          >
-            <h3 className="text-xl font-semibold mb-4 text-accent">What I Do</h3>
-            <ul className="space-y-3 text-text-dark">
-              <li className="flex items-start space-x-3 group/item">
-                <span className="w-2 h-2 mt-2 rounded-full bg-text-light group-hover/item:bg-accent group-hover/item:glow transition-all duration-300 flex-shrink-0"></span>
-                <span className="text-text-light">Design and implement scalable data architectures</span>
-              </li>
-              <li className="flex items-start space-x-3 group/item">
-                <span className="w-2 h-2 mt-2 rounded-full bg-text-light group-hover/item:bg-accent group-hover/item:glow transition-all duration-300 flex-shrink-0"></span>
-                <span className="text-text-light">Build and optimize ETL/ELT pipelines</span>
-              </li>
-              <li className="flex items-start space-x-3 group/item">
-                <span className="w-2 h-2 mt-2 rounded-full bg-text-light group-hover/item:bg-accent group-hover/item:glow transition-all duration-300 flex-shrink-0"></span>
-                <span className="text-text-light">Develop real-time data processing solutions</span>
-              </li>
-              <li className="flex items-start space-x-3 group/item">
-                <span className="w-2 h-2 mt-2 rounded-full bg-text-light group-hover/item:bg-accent group-hover/item:glow transition-all duration-300 flex-shrink-0"></span>
-                <span className="text-text-light">Implement data quality and testing frameworks</span>
-              </li>
-            </ul>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="bg-surface-card p-6 rounded-2xl border border-accent/10"
-          >
-            <h3 className="text-xl font-semibold mb-4 text-accent">My Approach</h3>
-            <ul className="space-y-3 text-text-dark">
-              <li className="flex items-start space-x-3 group/item">
-                <span className="w-2 h-2 mt-2 rounded-full bg-text-light group-hover/item:bg-accent group-hover/item:glow transition-all duration-300 flex-shrink-0"></span>
-                <span className="text-text-light">Focus on scalable and maintainable solutions</span>
-              </li>
-              <li className="flex items-start space-x-3 group/item">
-                <span className="w-2 h-2 mt-2 rounded-full bg-text-light group-hover/item:bg-accent group-hover/item:glow transition-all duration-300 flex-shrink-0"></span>
-                <span className="text-text-light">Emphasis on automation and efficiency</span>
-              </li>
-              <li className="flex items-start space-x-3 group/item">
-                <span className="w-2 h-2 mt-2 rounded-full bg-text-light group-hover/item:bg-accent group-hover/item:glow transition-all duration-300 flex-shrink-0"></span>
-                <span className="text-text-light">Data-driven decision making</span>
-              </li>
-              <li className="flex items-start space-x-3 group/item">
-                <span className="w-2 h-2 mt-2 rounded-full bg-text-light group-hover/item:bg-accent group-hover/item:glow transition-all duration-300 flex-shrink-0"></span>
-                <span className="text-text-light">Continuous learning and improvement</span>
-              </li>
-            </ul>
-          </motion.div>
-        </div>
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          className="bg-surface-card p-6 rounded-2xl border border-accent/10"
+        >
+          <h3 className="text-xl font-semibold mb-4 text-accent">My Approach</h3>
+          <ul className="space-y-3 text-text-dark">
+            <li className="flex items-start space-x-3 group/item">
+              <span className="w-2 h-2 mt-2 rounded-full bg-text-light group-hover/item:bg-accent group-hover/item:glow transition-all duration-300 flex-shrink-0"></span>
+              <span className="text-text-light">Focus on scalable and maintainable solutions</span>
+            </li>
+            <li className="flex items-start space-x-3 group/item">
+              <span className="w-2 h-2 mt-2 rounded-full bg-text-light group-hover/item:bg-accent group-hover/item:glow transition-all duration-300 flex-shrink-0"></span>
+              <span className="text-text-light">Emphasis on automation and efficiency</span>
+            </li>
+            <li className="flex items-start space-x-3 group/item">
+              <span className="w-2 h-2 mt-2 rounded-full bg-text-light group-hover/item:bg-accent group-hover/item:glow transition-all duration-300 flex-shrink-0"></span>
+              <span className="text-text-light">Data-driven decision making</span>
+            </li>
+            <li className="flex items-start space-x-3 group/item">
+              <span className="w-2 h-2 mt-2 rounded-full bg-text-light group-hover/item:bg-accent group-hover/item:glow transition-all duration-300 flex-shrink-0"></span>
+              <span className="text-text-light">Continuous learning and improvement</span>
+            </li>
+          </ul>
+        </motion.div>
       </div>
-    </section>
+    </StandardSection>
   );
 }
 
@@ -984,3 +920,25 @@ function App() {
 }
 
 export default App;
+
+function StandardSection({ id, title, description, children }) {
+  return (
+    <section id={id} className="py-20 bg-background-dark">
+      <div className="container mx-auto px-4">
+        <div className="max-w-4xl mx-auto">
+          <motion.div
+            {...standardMotion}
+            className="text-center mb-12"
+          >
+            <h2 className="text-4xl font-bold mb-4">{title}</h2>
+            <p className="text-text-dark text-lg">{description}</p>
+          </motion.div>
+          
+          <div className="standard-card">
+            {children}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

@@ -268,3 +268,12 @@ section:first-of-type {
 .animate-pulse {
   animation: pulse 2s infinite;
 }
+
+/* Add these to the existing CSS */
+.standard-card {
+  @apply bg-surface-card p-8 rounded-2xl border border-accent/10 transition-all duration-300;
+}
+
+.standard-hover {
+  @apply hover:border-accent/20 hover:shadow-xl;
+}

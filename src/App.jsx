@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   FaGithub, 
   FaLinkedin, 
@@ -19,7 +19,7 @@ import {
   SiApachekafka, 
   SiMicrosoftazure,
   SiDatabricks,
-  SiTableau,
+  SiPowerbi,
   SiGooglecloud,
   SiSnowflake
 } from 'react-icons/si';
@@ -87,17 +87,103 @@ function SkillCard({ icon, title, description, websiteUrl }) {
   );
 }
 
-function ProjectCard({ title, description, tags, githubUrl, architectureGif }) {
+// Add this new ProjectModal component
+function ProjectModal({ project, isOpen, onClose }) {
+  if (!isOpen) return null;
+
+  return (
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+        onClick={onClose}
+      >
+        <motion.div
+          initial={{ scale: 0.95, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ scale: 0.95, opacity: 0 }}
+          onClick={e => e.stopPropagation()}
+          className="bg-surface-card w-full max-w-4xl rounded-2xl p-6 shadow-xl border border-accent/10"
+        >
+          <div className="flex justify-between items-start mb-6">
+            <h3 className="text-2xl font-bold text-text-light">{project.title}</h3>
+            <button
+              onClick={onClose}
+              className="text-text-dark hover:text-accent transition-colors"
+            >
+              ✕
+            </button>
+          </div>
+
+          {project.architectureGif && (
+            <div className="mb-6 rounded-xl overflow-hidden border border-accent/10">
+              <img
+                src={project.architectureGif}
+                alt={`${project.title} Architecture`}
+                className="w-full h-auto"
+              />
+            </div>
+          )}
+
+          <div className="space-y-4 mb-6">
+            <p className="text-text-dark">{project.description}</p>
+            
+            <div className="space-y-2">
+              <h4 className="font-semibold text-text-light">Key Features:</h4>
+              <ul className="list-disc list-inside text-text-dark space-y-1">
+                {project.features?.map((feature, index) => (
+                  <li key={index}>{feature}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="space-y-2">
+              <h4 className="font-semibold text-text-light">Technologies Used:</h4>
+              <div className="flex flex-wrap gap-2">
+                {project.tags.map((tag, index) => (
+                  <span
+                    key={index}
+                    className="px-3 py-1 text-sm rounded-full bg-surface-dark text-accent border border-accent/10"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="flex justify-end">
+            <a
+              href={project.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center space-x-2 px-4 py-2 rounded-lg bg-accent text-background-dark hover:bg-accent-dark transition-colors"
+            >
+              <FaGithub />
+              <span>View on GitHub</span>
+            </a>
+          </div>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
+  );
+}
+
+// Update the ProjectCard component
+function ProjectCard({ project, onClick }) {
   return (
     <motion.div
-      className="relative overflow-hidden rounded-2xl bg-surface-card backdrop-blur-xs p-6 border border-accent/10 shadow-card transition-all duration-300"
+      onClick={onClick}
+      className="relative overflow-hidden rounded-2xl bg-surface-card backdrop-blur-xs p-6 border border-accent/10 shadow-card transition-all duration-300 cursor-pointer"
       whileHover={{ y: -5 }}
       transition={{ type: "spring", stiffness: 300 }}
     >
-      <h3 className="text-xl font-semibold mb-3 text-text-light">{title}</h3>
-      <p className="text-text-dark mb-4">{description}</p>
+      <h3 className="text-xl font-bold mb-3 text-text-light">{project.title}</h3>
+      <p className="text-text-dark mb-4">{project.description}</p>
       <div className="flex flex-wrap gap-2 mb-4">
-        {tags.map((tag, index) => (
+        {project.tags.map((tag, index) => (
           <span
             key={index}
             className="px-3 py-1 text-sm rounded-full bg-surface-dark text-accent border border-accent/10"
@@ -106,24 +192,6 @@ function ProjectCard({ title, description, tags, githubUrl, architectureGif }) {
           </span>
         ))}
       </div>
-      {architectureGif && (
-        <div className="mb-4 overflow-hidden rounded-lg border border-accent/10">
-          <img
-            src={architectureGif}
-            alt="Architecture Diagram"
-            className="w-full h-auto transition-transform duration-300 group-hover:scale-105"
-          />
-        </div>
-      )}
-      <a
-        href={githubUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-flex items-center text-accent hover:text-text-light transition-colors"
-      >
-        <FaGithub className="mr-2" />
-        View on GitHub
-      </a>
     </motion.div>
   );
 }
@@ -231,16 +299,16 @@ function SkillsSection() {
       websiteUrl: "https://www.databricks.com/"
     },
     {
-      icon: <SiSnowflake className="w-8 h-8" />,
-      title: "Snowflake",
-      description: "Cloud data warehousing and analytics solutions.",
-      websiteUrl: "https://www.snowflake.com/"
+      icon: <SiGooglecloud className="w-8 h-8" />,
+      title: "Google Cloud Platform",
+      description: "Cloud infrastructure and data platform solutions using GCP services.",
+      websiteUrl: "https://cloud.google.com/"
     },
     {
-      icon: <SiTableau className="w-8 h-8" />,
-      title: "Tableau",
-      description: "Data visualization and business intelligence solutions.",
-      websiteUrl: "https://www.tableau.com/"
+      icon: <SiPowerbi className="w-8 h-8" />,
+      title: "Power BI",
+      description: "Business intelligence and data visualization solutions.",
+      websiteUrl: "https://powerbi.microsoft.com/"
     }
   ];
 
@@ -255,7 +323,7 @@ function SkillsSection() {
         >
           <h2 className="text-4xl font-bold mb-4">Technical Skills</h2>
           <p className="text-text-dark text-lg">
-            Core technologies I work with. Click on any skill to visit its official website.
+            Core technologies I work with.
           </p>
         </motion.div>
         
@@ -423,7 +491,7 @@ function ExperienceSection() {
   ];
 
   return (
-    <section className="py-20 bg-background-dark">
+    <section id="experience" className="py-20 bg-background-dark">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -471,29 +539,25 @@ function ExperienceSection() {
   );
 }
 
+// Update the ProjectsSection component
 function ProjectsSection() {
+  const [selectedProject, setSelectedProject] = useState(null);
+  
   const projects = [
     {
       title: "Data Pipeline Automation",
-      description: "Automated ETL pipeline using Apache Airflow and AWS services",
+      description: "Automated ETL pipeline using Apache Airflow and AWS services for processing large-scale data workflows.",
       tags: ["Python", "Airflow", "AWS"],
       githubUrl: "https://github.com/yourusername/data-pipeline-automation",
-      architectureGif: "/path/to/pipeline-architecture.gif"
+      architectureGif: "/path/to/pipeline-architecture.gif",
+      features: [
+        "Automated data validation and quality checks",
+        "Real-time monitoring and alerting",
+        "Scalable processing of 100TB+ daily data",
+        "Cost optimization through intelligent scheduling"
+      ]
     },
-    {
-      title: "Real-time Analytics Platform",
-      description: "Built a real-time analytics platform using Apache Kafka and Spark Streaming",
-      tags: ["Kafka", "Spark", "Python"],
-      githubUrl: "https://github.com/yourusername/realtime-analytics",
-      architectureGif: "/path/to/realtime-architecture.gif"
-    },
-    {
-      title: "Data Warehouse Migration",
-      description: "Migrated legacy data warehouse to modern cloud architecture",
-      tags: ["AWS", "Snowflake", "dbt"],
-      githubUrl: "https://github.com/yourusername/warehouse-migration",
-      architectureGif: "/path/to/warehouse-architecture.gif"
-    }
+    // Add more projects with detailed information
   ];
 
   return (
@@ -506,7 +570,7 @@ function ProjectsSection() {
           className="text-center mb-12"
         >
           <h2 className="text-4xl font-bold mb-4">Featured Projects</h2>
-          <p className="text-text-dark text-lg">Showcasing some of my best work in data engineering and analytics</p>
+          <p className="text-text-dark text-lg">Click on a project to learn more</p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -518,11 +582,20 @@ function ProjectsSection() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              <ProjectCard {...project} />
+              <ProjectCard 
+                project={project} 
+                onClick={() => setSelectedProject(project)} 
+              />
             </motion.div>
           ))}
         </div>
       </div>
+
+      <ProjectModal 
+        project={selectedProject}
+        isOpen={!!selectedProject}
+        onClose={() => setSelectedProject(null)}
+      />
     </section>
   );
 }
@@ -538,9 +611,10 @@ function ContactSection() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-4xl font-bold mb-4">Get in Touch</h2>
+            <h2 className="text-4xl font-bold mb-4">Let's Connect
+            </h2>
             <p className="text-text-dark text-lg">
-              Feel free to reach out through any of these platforms
+            Feel free to get in touch with me. I am always open to discussing new projects, creative ideas or opportunities to be part of your visions.
             </p>
           </motion.div>
 
@@ -556,7 +630,7 @@ function ContactSection() {
                 <div className="p-3 bg-surface-dark rounded-xl border border-accent/10 group-hover:border-accent/20 transition-colors">
                   <FaEnvelope className="w-6 h-6" />
                 </div>
-                <span>john.doe@example.com</span>
+                <span>Email</span>
               </a>
               <a href="https://github.com/yourusername" 
                  target="_blank" 
@@ -565,7 +639,7 @@ function ContactSection() {
                 <div className="p-3 bg-surface-dark rounded-xl border border-accent/10 group-hover:border-accent/20 transition-colors">
                   <FaGithub className="w-6 h-6" />
                 </div>
-                <span>GitHub Profile</span>
+                <span>GitHub</span>
               </a>
               <a href="https://linkedin.com/in/yourusername" 
                  target="_blank" 
@@ -574,7 +648,7 @@ function ContactSection() {
                 <div className="p-3 bg-surface-dark rounded-xl border border-accent/10 group-hover:border-accent/20 transition-colors">
                   <FaLinkedin className="w-6 h-6" />
                 </div>
-                <span>LinkedIn Profile</span>
+                <span>LinkedIn</span>
               </a>
             </div>
           </motion.div>
@@ -588,92 +662,114 @@ function AboutSection() {
   return (
     <section id="about" className="py-20 bg-background-dark">
       <div className="container mx-auto px-4">
-        <div className="max-w-4xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="max-w-4xl mx-auto text-center mb-12"
+        >
+          <h2 className="text-4xl font-bold mb-4">About Me</h2>
+          <p className="text-text-dark text-lg leading-relaxed">
+            I am a Senior Data Engineer with over 5 years of experience in building scalable data solutions. 
+            Specializing in designing and implementing robust data pipelines, warehousing solutions, and 
+            real-time analytics platforms.
+          </p>
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-12"
+            className="bg-surface-card p-6 rounded-2xl border border-accent/10"
           >
-            <h2 className="text-4xl font-bold mb-4">About Me</h2>
-            <p className="text-text-dark text-lg">
-              Passionate about transforming raw data into actionable insights
-            </p>
+            <h3 className="text-xl font-semibold mb-4 text-accent">What I Do</h3>
+            <ul className="space-y-3 text-text-dark">
+              <li className="flex items-start space-x-2">
+                <FaCheck className="text-accent mt-1 flex-shrink-0" />
+                <span>Design and implement scalable data architectures</span>
+              </li>
+              <li className="flex items-start space-x-2">
+                <FaCheck className="text-accent mt-1 flex-shrink-0" />
+                <span>Build and optimize ETL/ELT pipelines</span>
+              </li>
+              <li className="flex items-start space-x-2">
+                <FaCheck className="text-accent mt-1 flex-shrink-0" />
+                <span>Develop real-time data processing solutions</span>
+              </li>
+              <li className="flex items-start space-x-2">
+                <FaCheck className="text-accent mt-1 flex-shrink-0" />
+                <span>Implement data quality and testing frameworks</span>
+              </li>
+            </ul>
           </motion.div>
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            {/* Content here */}
-          </div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="bg-surface-card p-6 rounded-2xl border border-accent/10"
+          >
+            <h3 className="text-xl font-semibold mb-4 text-accent">My Approach</h3>
+            <ul className="space-y-3 text-text-dark">
+              <li className="flex items-start space-x-2">
+                <FaCheck className="text-accent mt-1 flex-shrink-0" />
+                <span>Focus on scalable and maintainable solutions</span>
+              </li>
+              <li className="flex items-start space-x-2">
+                <FaCheck className="text-accent mt-1 flex-shrink-0" />
+                <span>Emphasis on automation and efficiency</span>
+              </li>
+              <li className="flex items-start space-x-2">
+                <FaCheck className="text-accent mt-1 flex-shrink-0" />
+                <span>Data-driven decision making</span>
+              </li>
+              <li className="flex items-start space-x-2">
+                <FaCheck className="text-accent mt-1 flex-shrink-0" />
+                <span>Continuous learning and improvement</span>
+              </li>
+            </ul>
+          </motion.div>
         </div>
       </div>
     </section>
   );
 }
 
-function NavLink({ href, children }) {
-  const scrollToSection = (e) => {
-    e.preventDefault();
-    const targetId = href.substring(1); // Remove the # from href
-    const targetSection = document.getElementById(targetId);
-    
-    if (targetSection) {
-      const navHeight = document.querySelector('nav').offsetHeight;
-      const targetPosition = targetSection.offsetTop - navHeight;
-      
-      window.scrollTo({
-        top: targetPosition,
-        behavior: 'smooth'
-      });
-    }
-  };
-
-  return (
-    <a 
-      href={href} 
-      onClick={scrollToSection}
-      className="text-text-dark hover:text-accent transition-colors"
-    >
-      {children}
-    </a>
-  );
-}
-
-// Main App component with updated structure
 function App() {
   return (
     <div className="min-h-screen bg-background-dark text-text-light">
-      <nav className="fixed w-full z-50 bg-background-dark/80 backdrop-blur-sm border-b border-accent/10">
+      {/* Navigation */}
+      <nav className="fixed w-full z-50 bg-background-dark/80 backdrop-blur-sm">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <a href="#" className="text-2xl font-bold text-text-light">
             Data<span className="text-accent">Engineer</span>
           </a>
           <div className="flex items-center space-x-8">
-            <NavLink href="#about">About</NavLink>
-            <NavLink href="#skills">Skills</NavLink>
-            <NavLink href="#projects">Projects</NavLink>
-            <NavLink href="#contact">Contact</NavLink>
+            <a href="#about" className="text-text-dark hover:text-accent transition-colors">About</a>
+            <a href="#skills" className="text-text-dark hover:text-accent transition-colors">Skills</a>
+            <a href="#projects" className="text-text-dark hover:text-accent transition-colors">Projects</a>
+            <a href="#experience" className="text-text-dark hover:text-accent transition-colors">Experience</a>
+            <a href="#contact" className="text-text-dark hover:text-accent transition-colors">Contact</a>
           </div>
         </div>
       </nav>
 
-      <ScrollProgress />
       <main>
         <HeroSection />
-        <MetricsSection />
         <AboutSection />
-        <ExperienceSection />
         <SkillsSection />
-        <CertificationsSection />
         <ProjectsSection />
+        <ExperienceSection />
+        <CertificationsSection />
         <ContactSection />
       </main>
 
       <footer className="py-8 bg-background-darker border-t border-accent/10">
         <div className="container mx-auto px-4">
-          <div className="flex flex-col items-center space-y-4">
-            <p className="text-text-dark text-center"> 2023 DataEngineer.dev. All rights reserved.</p>
-            <div className="flex justify-center space-x-6">
-              <a href="#" className="text-text-dark hover:text-accent transition-colors">Privacy Policy</a>
-              <a href="#" className="text-text-dark hover:text-accent transition-colors">Terms of Service</a>
+          <div className="flex justify-center items-center">
+            <div className="text-text-dark">
+              <p>&copy; {new Date().getFullYear()} Data Engineer. All rights reserved.</p>
             </div>
           </div>
         </div>

@@ -354,23 +354,48 @@ function SkillsSection() {
           className="text-center mb-12"
         >
           <h2 className="text-4xl font-bold mb-4">Technical Skills</h2>
-          <p className="text-text-dark text-lg">
-            Core technologies I work with.
-          </p>
+          <p className="text-text-dark text-lg">Core technologies I work with</p>
         </motion.div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {skills.map((skill, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-            >
-              <SkillCard {...skill} />
-            </motion.div>
-          ))}
+        <div className="max-w-4xl mx-auto">
+          <div className="bg-surface-card p-8 rounded-2xl border border-accent/10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 relative">
+              {skills.map((skill, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="relative"
+                >
+                  <a 
+                    href={skill.websiteUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center space-x-4 group p-4 hover:bg-surface-dark rounded-xl transition-all duration-300"
+                  >
+                    <div className="text-accent group-hover:scale-110 transition-transform duration-300">
+                      {skill.icon}
+                    </div>
+                    <h3 className="text-lg font-semibold group-hover:text-accent transition-colors">
+                      {skill.title}
+                    </h3>
+                  </a>
+                  
+                  {/* Vertical separator line */}
+                  {(index + 1) % 3 !== 0 && index !== skills.length - 1 && (
+                    <div className="absolute right-0 top-0 h-full w-px bg-accent/10"></div>
+                  )}
+                  
+                  {/* Horizontal separator line */}
+                  {index < skills.length - 3 && (
+                    <div className="absolute bottom-0 left-0 w-full h-px bg-accent/10"></div>
+                  )}
+                </motion.div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>

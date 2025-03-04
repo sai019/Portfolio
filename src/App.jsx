@@ -11,7 +11,13 @@ import {
   FaChartLine,
   FaCheckCircle,
   FaCheck,
-  FaAws
+  FaAws,
+  FaBars,
+  FaTimes,
+  FaUser,
+  FaCode,
+  FaFolder,
+  FaBriefcase
 } from 'react-icons/fa';
 import { 
   SiApachespark, 
@@ -176,12 +182,27 @@ function ProjectCard({ project, onClick }) {
   return (
     <motion.div
       onClick={onClick}
-      className="relative overflow-hidden rounded-2xl bg-surface-card backdrop-blur-xs p-6 border border-accent/10 shadow-card transition-all duration-300 cursor-pointer"
+      className="group relative overflow-hidden rounded-2xl bg-surface-card backdrop-blur-xs p-6 border border-accent/10 shadow-card transition-all duration-300 cursor-pointer"
       whileHover={{ y: -5 }}
       transition={{ type: "spring", stiffness: 300 }}
     >
-      <h3 className="text-xl font-bold mb-3 text-text-light">{project.title}</h3>
+      {/* Click Indicator */}
+      <div className="absolute top-4 right-4 text-accent opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-2">
+        <span className="text-sm">Click to view details</span>
+        <motion.div 
+          animate={{ x: [0, 5, 0] }} 
+          transition={{ repeat: Infinity, duration: 1.5 }}
+        >
+          →
+        </motion.div>
+      </div>
+
+      <h3 className="text-xl font-bold mb-3 text-text-light group-hover:text-accent transition-all duration-300">
+        {project.title}
+      </h3>
+      
       <p className="text-text-dark mb-4">{project.description}</p>
+      
       <div className="flex flex-wrap gap-2 mb-4">
         {project.tags.map((tag, index) => (
           <span
@@ -191,6 +212,14 @@ function ProjectCard({ project, onClick }) {
             {tag}
           </span>
         ))}
+      </div>
+
+      {/* View Details Button */}
+      <div className="mt-4 pt-4 border-t border-accent/10 flex justify-end">
+        <div className="text-text-dark group-hover:text-accent transition-colors text-sm flex items-center gap-2">
+          <span>View Project Details</span>
+          <FaFolder className="w-4 h-4" />
+        </div>
       </div>
     </motion.div>
   );
@@ -711,21 +740,21 @@ function AboutSection() {
           >
             <h3 className="text-xl font-semibold mb-4 text-accent">What I Do</h3>
             <ul className="space-y-3 text-text-dark">
-              <li className="flex items-start space-x-2">
-                <FaCheck className="text-accent mt-1 flex-shrink-0" />
-                <span>Design and implement scalable data architectures</span>
+              <li className="flex items-start space-x-3 group/item">
+                <span className="w-2 h-2 mt-2 rounded-full bg-text-light group-hover/item:bg-accent group-hover/item:glow transition-all duration-300 flex-shrink-0"></span>
+                <span className="text-text-light">Design and implement scalable data architectures</span>
               </li>
-              <li className="flex items-start space-x-2">
-                <FaCheck className="text-accent mt-1 flex-shrink-0" />
-                <span>Build and optimize ETL/ELT pipelines</span>
+              <li className="flex items-start space-x-3 group/item">
+                <span className="w-2 h-2 mt-2 rounded-full bg-text-light group-hover/item:bg-accent group-hover/item:glow transition-all duration-300 flex-shrink-0"></span>
+                <span className="text-text-light">Build and optimize ETL/ELT pipelines</span>
               </li>
-              <li className="flex items-start space-x-2">
-                <FaCheck className="text-accent mt-1 flex-shrink-0" />
-                <span>Develop real-time data processing solutions</span>
+              <li className="flex items-start space-x-3 group/item">
+                <span className="w-2 h-2 mt-2 rounded-full bg-text-light group-hover/item:bg-accent group-hover/item:glow transition-all duration-300 flex-shrink-0"></span>
+                <span className="text-text-light">Develop real-time data processing solutions</span>
               </li>
-              <li className="flex items-start space-x-2">
-                <FaCheck className="text-accent mt-1 flex-shrink-0" />
-                <span>Implement data quality and testing frameworks</span>
+              <li className="flex items-start space-x-3 group/item">
+                <span className="w-2 h-2 mt-2 rounded-full bg-text-light group-hover/item:bg-accent group-hover/item:glow transition-all duration-300 flex-shrink-0"></span>
+                <span className="text-text-light">Implement data quality and testing frameworks</span>
               </li>
             </ul>
           </motion.div>
@@ -738,21 +767,21 @@ function AboutSection() {
           >
             <h3 className="text-xl font-semibold mb-4 text-accent">My Approach</h3>
             <ul className="space-y-3 text-text-dark">
-              <li className="flex items-start space-x-2">
-                <FaCheck className="text-accent mt-1 flex-shrink-0" />
-                <span>Focus on scalable and maintainable solutions</span>
+              <li className="flex items-start space-x-3 group/item">
+                <span className="w-2 h-2 mt-2 rounded-full bg-text-light group-hover/item:bg-accent group-hover/item:glow transition-all duration-300 flex-shrink-0"></span>
+                <span className="text-text-light">Focus on scalable and maintainable solutions</span>
               </li>
-              <li className="flex items-start space-x-2">
-                <FaCheck className="text-accent mt-1 flex-shrink-0" />
-                <span>Emphasis on automation and efficiency</span>
+              <li className="flex items-start space-x-3 group/item">
+                <span className="w-2 h-2 mt-2 rounded-full bg-text-light group-hover/item:bg-accent group-hover/item:glow transition-all duration-300 flex-shrink-0"></span>
+                <span className="text-text-light">Emphasis on automation and efficiency</span>
               </li>
-              <li className="flex items-start space-x-2">
-                <FaCheck className="text-accent mt-1 flex-shrink-0" />
-                <span>Data-driven decision making</span>
+              <li className="flex items-start space-x-3 group/item">
+                <span className="w-2 h-2 mt-2 rounded-full bg-text-light group-hover/item:bg-accent group-hover/item:glow transition-all duration-300 flex-shrink-0"></span>
+                <span className="text-text-light">Data-driven decision making</span>
               </li>
-              <li className="flex items-start space-x-2">
-                <FaCheck className="text-accent mt-1 flex-shrink-0" />
-                <span>Continuous learning and improvement</span>
+              <li className="flex items-start space-x-3 group/item">
+                <span className="w-2 h-2 mt-2 rounded-full bg-text-light group-hover/item:bg-accent group-hover/item:glow transition-all duration-300 flex-shrink-0"></span>
+                <span className="text-text-light">Continuous learning and improvement</span>
               </li>
             </ul>
           </motion.div>
@@ -762,7 +791,106 @@ function AboutSection() {
   );
 }
 
+function Menu({ isOpen, onClose }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: '100%' }}
+      animate={{ opacity: isOpen ? 1 : 0, x: isOpen ? 0 : '100%' }}
+      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      className={`fixed top-0 right-0 h-full w-80 bg-surface-card/95 backdrop-blur-lg border-l border-accent/10 z-50 ${
+        isOpen ? 'block' : 'hidden'
+      }`}
+    >
+      <div className="p-8">
+        <motion.button 
+          onClick={onClose}
+          whileHover={{ rotate: 90 }}
+          transition={{ type: "spring", stiffness: 300 }}
+          className="absolute top-6 right-6 text-text-dark hover:text-accent transition-colors"
+        >
+          <FaTimes className="w-6 h-6" />
+        </motion.button>
+
+        <nav className="mt-16">
+          <motion.ul className="space-y-6">
+            {[
+              { href: "#about", label: "About", icon: <FaUser className="w-5 h-5" /> },
+              { href: "#skills", label: "Skills", icon: <FaCode className="w-5 h-5" /> },
+              { href: "#projects", label: "Projects", icon: <FaFolder className="w-5 h-5" /> },
+              { href: "#experience", label: "Experience", icon: <FaBriefcase className="w-5 h-5" /> },
+              { href: "#contact", label: "Contact", icon: <FaEnvelope className="w-5 h-5" /> }
+            ].map((item, index) => (
+              <motion.li
+                key={item.href}
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ 
+                  delay: index * 0.1,
+                  type: "spring",
+                  stiffness: 300
+                }}
+              >
+                <MenuLink href={item.href} onClick={onClose} icon={item.icon}>
+                  {item.label}
+                </MenuLink>
+              </motion.li>
+            ))}
+          </motion.ul>
+        </nav>
+
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+          className="absolute bottom-8 left-8 right-8"
+        >
+          <div className="border-t border-accent/10 pt-6">
+            <div className="flex justify-center space-x-6">
+              <motion.a
+                whileHover={{ y: -3 }}
+                href="https://github.com/yourusername"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-text-dark hover:text-accent transition-colors"
+              >
+                <FaGithub className="w-6 h-6" />
+              </motion.a>
+              <motion.a
+                whileHover={{ y: -3 }}
+                href="https://linkedin.com/in/yourusername"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-text-dark hover:text-accent transition-colors"
+              >
+                <FaLinkedin className="w-6 h-6" />
+              </motion.a>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </motion.div>
+  );
+}
+
+function MenuLink({ href, children, onClick, icon }) {
+  return (
+    <motion.a
+      href={href}
+      onClick={onClick}
+      whileHover={{ x: 10 }}
+      className="group flex items-center space-x-4 text-text-light hover:text-accent transition-colors py-2"
+    >
+      <span className="p-2 rounded-lg bg-surface-dark group-hover:bg-accent/10 transition-colors">
+        {icon}
+      </span>
+      <span className="text-lg font-medium">{children}</span>
+    </motion.a>
+  );
+}
+
 function App() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-background-dark text-text-light">
       {/* Navigation */}
@@ -771,16 +899,27 @@ function App() {
           <a href="#" className="text-2xl font-bold text-text-light">
             Data<span className="text-accent">Engineer</span>
           </a>
-          <div className="flex items-center space-x-8">
-            <a href="#about" className="text-text-dark hover:text-accent transition-colors">About</a>
-            <a href="#skills" className="text-text-dark hover:text-accent transition-colors">Skills</a>
-            <a href="#projects" className="text-text-dark hover:text-accent transition-colors">Projects</a>
-            <a href="#experience" className="text-text-dark hover:text-accent transition-colors">Experience</a>
-            <a href="#contact" className="text-text-dark hover:text-accent transition-colors">Contact</a>
-          </div>
+          <button
+            onClick={() => setIsMenuOpen(true)}
+            className="text-text-dark hover:text-accent transition-colors"
+          >
+            <FaBars className="w-6 h-6" />
+          </button>
         </div>
       </nav>
 
+      {/* Menu Overlay */}
+      {isMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+          onClick={() => setIsMenuOpen(false)}
+        />
+      )}
+
+      {/* Menu */}
+      <Menu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
+
+      {/* Rest of your components */}
       <main>
         <HeroSection />
         <div className="border-b border-accent/10"></div>

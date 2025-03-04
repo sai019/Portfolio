@@ -230,10 +230,36 @@ section:first-of-type {
 
 /* Glowing Effect */
 .glow {
-  box-shadow: 0 0 20px rgba(37, 99, 235, 0.1);
-  transition: box-shadow 0.3s ease;
+  text-shadow: 0 0 10px rgba(0, 255, 187, 0.5);
+  transition: all 0.3s ease;
 }
 
 .glow:hover {
-  box-shadow: 0 0 30px rgba(37, 99, 235, 0.2);
+  box-shadow: 0 0 30px rgba(0, 255, 187, 0.5);
+}
+
+.group:hover .glow {
+  box-shadow: 0 0 10px rgba(0, 255, 187, 0.5),
+              0 0 20px rgba(0, 255, 187, 0.3);
+  transform: scale(1.2);
+}
+
+.group-hover\:glow:hover {
+  text-shadow: 0 0 15px rgba(0, 255, 187, 0.4);
+}
+
+.group-hover\/item .glow {
+  box-shadow: 0 0 10px rgba(0, 255, 187, 0.5),
+              0 0 20px rgba(0, 255, 187, 0.3);
+  transform: scale(1.2);
+}
+
+@keyframes pulse {
+  0% { opacity: 0.8; }
+  50% { opacity: 1; }
+  100% { opacity: 0.8; }
+}
+
+.animate-pulse {
+  animation: pulse 2s infinite;
 }

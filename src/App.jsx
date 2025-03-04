@@ -504,35 +504,46 @@ function ExperienceSection() {
         </motion.div>
 
         <div className="max-w-4xl mx-auto">
-          {experiences.map((exp, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="mb-12 last:mb-0"
-            >
-              <div className="bg-surface-card p-8 rounded-2xl border border-accent/10">
-                <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
-                  <div>
-                    <h3 className="text-xl font-semibold text-text-light">{exp.position}</h3>
-                    <p className="text-accent">{exp.company}</p>
+          <div className="bg-surface-card p-8 rounded-2xl border border-accent/10">
+            {experiences.map((exp, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="group/experience"
+              >
+                <div className="mb-8">
+                  <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
+                    <div>
+                      <h3 className="text-xl font-semibold text-text-light group-hover/experience:text-accent group-hover/experience:glow transition-all duration-300">
+                        {exp.position}
+                      </h3>
+                      <p className="text-accent">
+                        {exp.company}
+                      </p>
+                    </div>
+                    <p className="text-text-dark mt-2 md:mt-0 group-hover/experience:text-accent group-hover/experience:glow transition-all duration-300">
+                      {exp.period}
+                    </p>
                   </div>
-                  <p className="text-text-dark mt-2 md:mt-0">{exp.period}</p>
+                  <p className="text-text-dark mb-4">{exp.description}</p>
+                  <ul className="space-y-2">
+                    {exp.achievements.map((achievement, i) => (
+                      <li key={i} className="flex items-start space-x-3 group/item hover:text-accent transition-colors">
+                        <span className="w-2 h-2 mt-2 rounded-full bg-text-light group-hover/item:bg-accent group-hover/item:glow transition-all duration-300 flex-shrink-0"></span>
+                        <span className="text-text-light">{achievement}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                <p className="text-text-dark mb-4">{exp.description}</p>
-                <ul className="space-y-2">
-                  {exp.achievements.map((achievement, i) => (
-                    <li key={i} className="flex items-start space-x-2">
-                      <FaCheck className="text-accent mt-1 flex-shrink-0" />
-                      <span className="text-text-dark">{achievement}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </motion.div>
-          ))}
+                {index < experiences.length - 1 && (
+                  <div className="border-b border-accent/10 mb-8"></div>
+                )}
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -604,7 +615,7 @@ function ContactSection() {
   return (
     <section id="contact" className="py-20 bg-background-dark">
       <div className="container mx-auto px-4">
-        <div className="max-w-2xl mx-auto">
+        <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -613,55 +624,60 @@ function ContactSection() {
           >
             <h2 className="text-4xl font-bold mb-4">Let's Connect</h2>
             <p className="text-text-dark text-lg">
-              Feel free to get in touch with me. I am always open to discussing new projects, creative ideas or opportunities to be part of your visions.
+              Feel free to get in touch with me. I am always open to discussing new projects, creative ideas or opportunities.
             </p>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="bg-surface-card backdrop-blur-xs p-8 rounded-2xl border border-accent/10 shadow-card"
-          >
-            <div className="grid gap-6">
-              <a href="mailto:john.doe@example.com" 
-                 className="flex flex-col space-y-2 text-text-dark hover:text-accent transition-colors group">
-                <div className="flex items-center space-x-4">
-                  <div className="p-3 bg-surface-dark rounded-xl border border-accent/10 group-hover:border-accent/20 transition-colors">
-                    <FaEnvelope className="w-6 h-6" />
-                  </div>
-                  <span>Email</span>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Email Contact Box */}
+            <motion.a
+              href="mailto:john.doe@example.com"
+              whileHover={{ y: -5 }}
+              className="group block p-6 bg-surface-card backdrop-blur-xs rounded-2xl border border-accent/10 shadow-card hover:shadow-xl transition-all duration-300 glow-effect"
+            >
+              <div className="flex flex-col items-center text-center space-y-4">
+                <div className="p-4 bg-surface-dark rounded-full border border-accent/10 group-hover:border-accent group-hover:glow transition-all duration-300">
+                  <FaEnvelope className="w-8 h-8 text-accent group-hover:text-accent group-hover:animate-pulse" />
                 </div>
-                <span className="pl-14 text-sm text-text-dark">john.doe@example.com</span>
-              </a>
+                <h3 className="text-xl font-semibold text-text-light">Email</h3>
+                <p className="text-text-dark text-sm group-hover:text-accent transition-colors">john.doe@example.com</p>
+              </div>
+            </motion.a>
 
-              <a href="https://github.com/yourusername" 
-                 target="_blank" 
-                 rel="noopener noreferrer" 
-                 className="flex flex-col space-y-2 text-text-dark hover:text-accent transition-colors group">
-                <div className="flex items-center space-x-4">
-                  <div className="p-3 bg-surface-dark rounded-xl border border-accent/10 group-hover:border-accent/20 transition-colors">
-                    <FaGithub className="w-6 h-6" />
-                  </div>
-                  <span>GitHub</span>
+            {/* GitHub Contact Box */}
+            <motion.a
+              href="https://github.com/yourusername"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ y: -5 }}
+              className="group block p-6 bg-surface-card backdrop-blur-xs rounded-2xl border border-accent/10 shadow-card hover:shadow-xl transition-all duration-300 glow-effect"
+            >
+              <div className="flex flex-col items-center text-center space-y-4">
+                <div className="p-4 bg-surface-dark rounded-full border border-accent/10 group-hover:border-accent group-hover:glow transition-all duration-300">
+                  <FaGithub className="w-8 h-8 text-accent group-hover:text-accent group-hover:animate-pulse" />
                 </div>
-                <span className="pl-14 text-sm text-text-dark">github.com/yourusername</span>
-              </a>
+                <h3 className="text-xl font-semibold text-text-light">GitHub</h3>
+                <p className="text-text-dark text-sm group-hover:text-accent transition-colors">github.com/yourusername</p>
+              </div>
+            </motion.a>
 
-              <a href="https://linkedin.com/in/yourusername" 
-                 target="_blank" 
-                 rel="noopener noreferrer" 
-                 className="flex flex-col space-y-2 text-text-dark hover:text-accent transition-colors group">
-                <div className="flex items-center space-x-4">
-                  <div className="p-3 bg-surface-dark rounded-xl border border-accent/10 group-hover:border-accent/20 transition-colors">
-                    <FaLinkedin className="w-6 h-6" />
-                  </div>
-                  <span>LinkedIn</span>
+            {/* LinkedIn Contact Box */}
+            <motion.a
+              href="https://linkedin.com/in/yourusername"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ y: -5 }}
+              className="group block p-6 bg-surface-card backdrop-blur-xs rounded-2xl border border-accent/10 shadow-card hover:shadow-xl transition-all duration-300 glow-effect"
+            >
+              <div className="flex flex-col items-center text-center space-y-4">
+                <div className="p-4 bg-surface-dark rounded-full border border-accent/10 group-hover:border-accent group-hover:glow transition-all duration-300">
+                  <FaLinkedin className="w-8 h-8 text-accent group-hover:text-accent group-hover:animate-pulse" />
                 </div>
-                <span className="pl-14 text-sm text-text-dark">linkedin.com/in/yourusername</span>
-              </a>
-            </div>
-          </motion.div>
+                <h3 className="text-xl font-semibold text-text-light">LinkedIn</h3>
+                <p className="text-text-dark text-sm group-hover:text-accent transition-colors">linkedin.com/in/yourusername</p>
+              </div>
+            </motion.a>
+          </div>
         </div>
       </div>
     </section>

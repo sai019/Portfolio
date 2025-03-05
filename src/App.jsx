@@ -346,7 +346,7 @@ function SkillsSection() {
       title="Technical Skills"
       description="Core technologies I work with"
     >
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 relative">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-0 relative">
         {skills.map((skill, index) => (
           <motion.div
             key={index}
@@ -354,7 +354,14 @@ function SkillsSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="relative"
+            className="relative border-accent/10"
+            style={{
+              borderRight: ((index + 1) % 3 !== 0) ? '1px solid' : '1px solid',
+              borderBottom: '1px solid',
+              borderLeft: ((index % 3) === 0) ? '1px solid' : 'none',
+              borderTop: (index < 3) ? '1px solid' : 'none',
+              borderColor: 'rgb(0, 255, 187, 0.1)'
+            }}
           >
             <a 
               href={skill.websiteUrl}
@@ -369,16 +376,6 @@ function SkillsSection() {
                 {skill.title}
               </h3>
             </a>
-            
-            {/* Vertical separator line */}
-            {(index + 1) % 3 !== 0 && index !== skills.length - 1 && (
-              <div className="absolute right-0 top-0 h-full w-px bg-accent/10"></div>
-            )}
-            
-            {/* Horizontal separator line */}
-            {index < skills.length - 3 && (
-              <div className="absolute bottom-0 left-0 w-full h-px bg-accent/10"></div>
-            )}
           </motion.div>
         ))}
       </div>

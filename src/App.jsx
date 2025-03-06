@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   FaGithub, 
@@ -29,6 +29,7 @@ import {
   SiGooglecloud,
   SiSnowflake
 } from 'react-icons/si';
+import { Helmet } from 'react-helmet';
 
 const standardMotion = {
   initial: { opacity: 0, y: 20 },
@@ -101,91 +102,7 @@ function SkillCard({ icon, title, description, websiteUrl }) {
 }
 
 // Add this new ProjectModal component
-function ProjectModal({ project, isOpen, onClose }) {
-  if (!isOpen) return null;
-
-  return (
-    <AnimatePresence>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm overflow-y-auto"
-        onClick={onClose}
-      >
-        <motion.div
-          initial={{ scale: 0.95, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          exit={{ scale: 0.95, opacity: 0 }}
-          onClick={e => e.stopPropagation()}
-          className="bg-surface-card w-full max-w-4xl rounded-2xl shadow-xl border border-accent/10 my-4 mx-auto"
-        >
-          {/* Modal Content */}
-          <div className="p-4 sm:p-6 md:p-8 max-h-[90vh] overflow-y-auto">
-            <div className="flex justify-between items-start mb-6">
-              <h3 className="text-xl sm:text-2xl font-bold text-text-light pr-8">{project.title}</h3>
-              <button
-                onClick={onClose}
-                className="text-text-dark hover:text-accent transition-colors -mr-2"
-              >
-                <FaTimes className="w-5 h-5 sm:w-6 sm:h-6" />
-              </button>
-            </div>
-
-            {project.architectureGif && (
-              <div className="mb-6 rounded-xl overflow-hidden border border-accent/10">
-                <img
-                  src={project.architectureGif}
-                  alt={`${project.title} Architecture`}
-                  className="w-full h-auto"
-                />
-              </div>
-            )}
-
-            <div className="space-y-4 mb-6">
-              <p className="text-text-dark text-sm sm:text-base">{project.description}</p>
-              
-              <div className="space-y-2">
-                <h4 className="font-semibold text-text-light text-base sm:text-lg">Key Features:</h4>
-                <ul className="list-disc list-inside text-text-dark space-y-1 text-sm sm:text-base">
-                  {project.features?.map((feature, index) => (
-                    <li key={index}>{feature}</li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="space-y-2">
-                <h4 className="font-semibold text-text-light text-base sm:text-lg">Technologies Used:</h4>
-                <div className="flex flex-wrap gap-2">
-                  {project.tags.map((tag, index) => (
-                    <span
-                      key={index}
-                      className="px-2 py-1 sm:px-3 text-xs sm:text-sm rounded-full bg-surface-dark text-accent border border-accent/10"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <div className="flex justify-end pt-4 border-t border-accent/10">
-              <a
-                href={project.githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center space-x-2 px-4 py-2 rounded-lg bg-accent text-background-dark hover:bg-accent-dark transition-colors text-sm sm:text-base"
-              >
-                <FaGithub className="w-4 h-4 sm:w-5 sm:h-5" />
-                <span>View on GitHub</span>
-              </a>
-            </div>
-          </div>
-        </motion.div>
-      </motion.div>
-    </AnimatePresence>
-  );
-}
+const ProjectModal = lazy(() => import('./components/ProjectModal'));
 
 // Update the ProjectCard component
 function ProjectCard({ project, onClick }) {
@@ -258,6 +175,17 @@ function ScrollProgress() {
 }
 
 function ContactForm() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+  const [errors, setErrors] = useState({});
+
+  const validateForm = () => {
+    // Add validation logic
+  };
+
   const [status, setStatus] = useState('');
 
   const handleSubmit = async (e) => {
@@ -573,6 +501,7 @@ function ExperienceSection() {
 // Update the ProjectsSection component
 function ProjectsSection() {
   const [selectedProject, setSelectedProject] = useState(null);
+  const [filter, setFilter] = useState('all');
   
   const projects = [
     {
@@ -591,6 +520,10 @@ function ProjectsSection() {
     // Add more projects with detailed information
   ];
 
+  const filteredProjects = projects.filter(project => 
+    filter === 'all' || project.category === filter
+  );
+
   return (
     <StandardSection
       id="projects"
@@ -598,7 +531,7 @@ function ProjectsSection() {
       description="Click on a project to learn more"
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {projects.map((project, index) => (
+        {filteredProjects.map((project, index) => (
           <motion.div
             key={index}
             initial={{ opacity: 0, y: 20 }}
@@ -614,75 +547,18 @@ function ProjectsSection() {
         ))}
       </div>
 
-      <ProjectModal 
-        project={selectedProject}
-        isOpen={!!selectedProject}
-        onClose={() => setSelectedProject(null)}
-      />
+      <Suspense fallback={<LoadingSpinner />}>
+        <ProjectModal 
+          project={selectedProject}
+          isOpen={!!selectedProject}
+          onClose={() => setSelectedProject(null)}
+        />
+      </Suspense>
     </StandardSection>
   );
 }
 
-function ContactSection() {
-  return (
-    <StandardSection
-      id="contact"
-      title="Let's Connect"
-      description="Feel free to get in touch with me. I am always open to discussing new projects, creative ideas or opportunities."
-    >
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Email Contact Box */}
-        <motion.a
-          href="mailto:john.doe@example.com"
-          whileHover={{ y: -5 }}
-          className="group block p-6 bg-surface-card backdrop-blur-xs rounded-2xl border border-accent/10 shadow-card hover:shadow-xl transition-all duration-300 glow-effect"
-        >
-          <div className="flex flex-col items-center text-center space-y-4">
-            <div className="p-4 bg-surface-dark rounded-full border border-accent/10 group-hover:border-accent group-hover:glow transition-all duration-300">
-              <FaEnvelope className="w-8 h-8 text-accent group-hover:text-accent group-hover:animate-pulse" />
-            </div>
-            <h3 className="text-xl font-semibold text-text-light">Email</h3>
-            <p className="text-text-dark text-sm group-hover:text-accent transition-colors">john.doe@example.com</p>
-          </div>
-        </motion.a>
-
-        {/* GitHub Contact Box */}
-        <motion.a
-          href="https://github.com/yourusername"
-          target="_blank"
-          rel="noopener noreferrer"
-          whileHover={{ y: -5 }}
-          className="group block p-6 bg-surface-card backdrop-blur-xs rounded-2xl border border-accent/10 shadow-card hover:shadow-xl transition-all duration-300 glow-effect"
-        >
-          <div className="flex flex-col items-center text-center space-y-4">
-            <div className="p-4 bg-surface-dark rounded-full border border-accent/10 group-hover:border-accent group-hover:glow transition-all duration-300">
-              <FaGithub className="w-8 h-8 text-accent group-hover:text-accent group-hover:animate-pulse" />
-            </div>
-            <h3 className="text-xl font-semibold text-text-light">GitHub</h3>
-            <p className="text-text-dark text-sm group-hover:text-accent transition-colors">github.com/yourusername</p>
-          </div>
-        </motion.a>
-
-        {/* LinkedIn Contact Box */}
-        <motion.a
-          href="https://linkedin.com/in/yourusername"
-          target="_blank"
-          rel="noopener noreferrer"
-          whileHover={{ y: -5 }}
-          className="group block p-6 bg-surface-card backdrop-blur-xs rounded-2xl border border-accent/10 shadow-card hover:shadow-xl transition-all duration-300 glow-effect"
-        >
-          <div className="flex flex-col items-center text-center space-y-4">
-            <div className="p-4 bg-surface-dark rounded-full border border-accent/10 group-hover:border-accent group-hover:glow transition-all duration-300">
-              <FaLinkedin className="w-8 h-8 text-accent group-hover:text-accent group-hover:animate-pulse" />
-            </div>
-            <h3 className="text-xl font-semibold text-text-light">LinkedIn</h3>
-            <p className="text-text-dark text-sm group-hover:text-accent transition-colors">linkedin.com/in/yourusername</p>
-          </div>
-        </motion.a>
-      </div>
-    </StandardSection>
-  );
-}
+const ContactSection = lazy(() => import('./components/ContactSection'));
 
 function AboutSection() {
   return (
@@ -849,11 +725,83 @@ function MenuLink({ href, children, onClick, icon }) {
   );
 }
 
+function ErrorBoundary({ children }) {
+  const [hasError, setHasError] = useState(false);
+  
+  if (hasError) {
+    return <div className="error-container">Something went wrong. Please refresh.</div>;
+  }
+  
+  return children;
+}
+
+function LoadingSpinner() {
+  return (
+    <div className="flex items-center justify-center p-4">
+      <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-accent"></div>
+    </div>
+  );
+}
+
+function ThemeToggle() {
+  const [isDark, setIsDark] = useState(true);
+
+  const toggleTheme = () => {
+    setIsDark(!isDark);
+    document.documentElement.classList.toggle('dark');
+  };
+}
+
+// Add page transition wrapper
+function PageTransition({ children }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+// Add next/image or similar optimization
+function OptimizedImage({ src, alt, ...props }) {
+  return (
+    <img
+      src={src}
+      alt={alt}
+      loading="lazy"
+      {...props}
+    />
+  );
+}
+
+function NotFound() {
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="text-center">
+        <h1 className="text-6xl font-bold mb-4">404</h1>
+        <p className="text-xl mb-8">Page not found</p>
+        <a href="/" className="text-accent hover:underline">
+          Go back home
+        </a>
+      </div>
+    </div>
+  );
+}
+
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-background-dark text-text-light">
+      <Helmet>
+        <title>Data Engineer Portfolio</title>
+        <meta name="description" content="Senior Data Engineer with expertise in building scalable data solutions" />
+        <meta name="keywords" content="data engineer, ETL, python, AWS, data pipeline" />
+      </Helmet>
       {/* Navigation */}
       <nav className="fixed w-full z-50 bg-background-dark/80 backdrop-blur-sm">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
@@ -861,8 +809,9 @@ function App() {
             Data<span className="text-accent">Engineer</span>
           </a>
           <button
+            aria-label="Open menu"
+            role="button"
             onClick={() => setIsMenuOpen(true)}
-            className="text-text-dark hover:text-accent transition-colors"
           >
             <FaBars className="w-6 h-6" />
           </button>
@@ -892,7 +841,7 @@ function App() {
         <div className="border-b border-accent/10"></div>
         
         <ProjectsSection />
-        <div className="border-b border-accent/10"></div>
+        <div class="border-b border-accent/10"></div>
         
         <ExperienceSection />
         <div className="border-b border-accent/10"></div>
@@ -900,7 +849,9 @@ function App() {
         <CertificationsSection />
         <div className="border-b border-accent/10"></div>
         
-        <ContactSection />
+        <Suspense fallback={<LoadingSpinner />}>
+          <ContactSection />
+        </Suspense>
       </main>
 
       <footer className="py-8 bg-background-darker border-t border-accent/10">

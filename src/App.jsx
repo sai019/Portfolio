@@ -82,7 +82,7 @@ function HeroSection() {
               className="relative w-[280px] h-[280px] md:w-[350px] md:h-[350px] rounded-full overflow-hidden"
             >
               <img
-                src="/Profile_pic.png"
+                src="public/Profile_pic.png"
                 alt="Data Engineer"
                 className="w-full h-full object-contain mix-blend-screen rounded-full scale-90"
                 style={{ 

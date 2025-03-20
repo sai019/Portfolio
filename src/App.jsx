@@ -1,10 +1,10 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  FaGithub, 
-  FaLinkedin, 
-  FaDatabase, 
-  FaPython, 
+  FaGithub,
+  FaLinkedin,
+  FaDatabase,
+  FaPython,
   FaEnvelope, 
   FaMapMarkerAlt,
   FaStream,
@@ -30,6 +30,7 @@ import {
   SiSnowflake
 } from 'react-icons/si';
 import { Helmet } from 'react-helmet';
+import profilePic from './assets/Profile_pic.png';
 
 const standardMotion = {
   initial: { opacity: 0, y: 20 },
@@ -82,12 +83,12 @@ function HeroSection() {
               className="relative w-[280px] h-[280px] md:w-[350px] md:h-[350px] rounded-full overflow-hidden"
             >
               <img
-                src="public/Profile_pic.png"
+                src={profilePic}  // Use the imported image
                 alt="Data Engineer"
                 className="w-full h-full object-contain mix-blend-screen rounded-full scale-90"
                 style={{ 
-                  filter: 'brightness(0.9) contrast(1.1)',  // Reduced brightness from 1.2 to 0.9
-                  transform: 'scale(0.9)'  // Reduces the image size within the container
+                  filter: 'brightness(0.9) contrast(1.1)',
+                  transform: 'scale(0.9)'
                 }}
               />
             </motion.div>
@@ -184,8 +185,8 @@ function ScrollProgress() {
       setScroll(scroll);
     };
 
-    window.addListener('scroll', handleScroll);
-    return () => window.removeListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll); // Fixed from addListener
+    return () => window.removeEventListener('scroll', handleScroll); // Fixed from removeListener
   }, []);
 
   return (

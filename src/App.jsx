@@ -41,37 +41,57 @@ const standardMotion = {
 // New components for enhanced visual design
 function HeroSection() {
   return (
-    <section className="min-h-screen flex items-center justify-center bg-background-dark relative overflow-hidden">
+    <section className="hero min-h-screen flex items-center justify-center bg-background-dark relative overflow-hidden">
       <div className="container mx-auto px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <motion.h1 
-            className="text-5xl md:text-7xl font-bold mb-6"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            Data <span className="text-accent">Engineer</span>
-          </motion.h1>
-          <motion.p 
-            className="text-xl md:text-2xl text-text-dark mb-12"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            Building scalable data pipelines and analytics solutions
-          </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-          >
-            <a 
-              href="#contact"
-              className="bg-accent hover:bg-accent-dark text-background-dark px-8 py-3 rounded-lg font-medium transition-colors"
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          <div className="text-center md:text-left">
+            <motion.h1
+              className="text-5xl md:text-7xl font-bold mb-6"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
             >
-              Get in Touch
-            </a>
-          </motion.div>
+              Data <span className="text-accent">Engineer</span>
+            </motion.h1>
+            <motion.p
+              className="text-xl md:text-2xl text-text-dark mb-12"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              Building scalable data pipelines and analytics solutions
+            </motion.p>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
+              <a
+                href="#contact"
+                className="bg-accent hover:bg-accent-dark text-background-dark px-8 py-3 rounded-lg font-medium transition-colors"
+              >
+                Get in Touch
+              </a>
+            </motion.div>
+          </div>
+          <div className="mx-auto">
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="relative w-[280px] h-[280px] md:w-[350px] md:h-[350px] rounded-full overflow-hidden"
+            >
+              <img
+                src="/Profile_pic.png"
+                alt="Data Engineer"
+                className="w-full h-full object-contain mix-blend-screen rounded-full scale-90"
+                style={{ 
+                  filter: 'brightness(0.9) contrast(1.1)',  // Reduced brightness from 1.2 to 0.9
+                  transform: 'scale(0.9)'  // Reduces the image size within the container
+                }}
+              />
+            </motion.div>
+          </div>
         </div>
       </div>
     </section>

@@ -42,26 +42,94 @@ const standardMotion = {
 // New components for enhanced visual design
 function HeroSection() {
   return (
-    <section className="hero min-h-screen flex items-center justify-center bg-background-dark relative overflow-hidden">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-          <div className="text-center md:text-left">
-            <motion.h1
-              className="text-5xl md:text-7xl font-bold mb-6"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              Data <span className="text-accent">Engineer</span>
-            </motion.h1>
-            <motion.p
-              className="text-xl md:text-2xl text-text-dark mb-12"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              Building scalable data pipelines and analytics solutions
-            </motion.p>
+    <section className="min-h-screen relative flex items-center bg-background-dark overflow-hidden">
+      {/* Background Shape */}
+      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1/2 h-full opacity-10">
+        <svg 
+          viewBox="0 0 800 800" 
+          fill="none" 
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-full h-full"
+        >
+          <path
+            d="M400 0C600 100 700 300 800 400C700 500 600 700 400 800C200 700 100 500 0 400C100 300 200 100 400 0Z"
+            fill="url(#gradient)"
+          >
+            <animate
+              attributeName="d"
+              dur="10s"
+              repeatCount="indefinite"
+              values="M400 0C600 100 700 300 800 400C700 500 600 700 400 800C200 700 100 500 0 400C100 300 200 100 400 0Z;
+                      M400 0C550 150 650 350 700 400C650 450 550 650 400 800C250 650 150 450 100 400C150 350 250 150 400 0Z;
+                      M400 0C600 100 700 300 800 400C700 500 600 700 400 800C200 700 100 500 0 400C100 300 200 100 400 0Z"
+            />
+          </path>
+          <defs>
+            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style={{ stopColor: '#00ffbb', stopOpacity: 0.2 }} />
+              <stop offset="100%" style={{ stopColor: '#00cc96', stopOpacity: 0.1 }} />
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          {/* Updated Profile Image */}
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            className="flex justify-center md:justify-center" // Changed from justify-start to justify-center
+          >
+            <div className="relative w-[280px] h-[280px] md:w-[350px] md:h-[350px] md:ml-20"> {/* Added ml-20 for margin-left */}
+              <img
+                src={profilePic}
+                alt="Sai kumar K"
+                className="w-full h-full object-contain rounded-full"
+                style={{ 
+                  filter: 'brightness(1) contrast(1)'  // Reset filters
+                }}
+              />
+            </div>
+          </motion.div>
+
+          {/* Text Content */}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-center md:text-left"
+          >
+            <h1 className="text-4xl md:text-6xl font-bold mb-4 tracking-tight">
+              Sai kumar <span className="text-accent">K</span>
+            </h1>
+            <h2 className="text-xl md:text-2xl text-text-dark mb-8">
+              Data Engineer
+            </h2>
+            <p className="text-text-dark text-lg mb-8 max-w-lg">
+              Building scalable data solutions and transforming complex data challenges into efficient, actionable insights.
+            </p>
+            <div className="flex items-center justify-center md:justify-start space-x-6 mb-8">
+              <motion.a
+                href="https://github.com/sai019"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-text-light hover:text-accent transition-all duration-300"
+                whileHover={{ y: -3 }}
+              >
+                <FaGithub className="w-6 h-6" style={{ color: '#ffffff' }} />
+              </motion.a>
+              <motion.a
+                href="https://linkedin.com/in/saikumarkollu"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-text-light hover:text-accent transition-all duration-300"
+                whileHover={{ y: -3 }}
+              >
+                <FaLinkedin className="w-6 h-6" style={{ color: '#0A66C2' }} />
+              </motion.a>
+            </div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -69,30 +137,13 @@ function HeroSection() {
             >
               <a
                 href="#contact"
-                className="bg-accent hover:bg-accent-dark text-background-dark px-8 py-3 rounded-lg font-medium transition-colors"
+                className="inline-flex items-center px-8 py-3 rounded-lg bg-accent text-background-dark font-medium hover:bg-accent-dark transition-colors duration-300"
               >
                 Get in Touch
+                <FaEnvelope className="ml-2 w-4 h-4" />
               </a>
             </motion.div>
-          </div>
-          <div className="mx-auto">
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="relative w-[280px] h-[280px] md:w-[350px] md:h-[350px] rounded-full overflow-hidden"
-            >
-              <img
-                src={profilePic}  // Use the imported image
-                alt="Data Engineer"
-                className="w-full h-full object-contain mix-blend-screen rounded-full scale-90"
-                style={{ 
-                  filter: 'brightness(0.9) contrast(1.1)',
-                  transform: 'scale(0.9)'
-                }}
-              />
-            </motion.div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
@@ -805,9 +856,136 @@ function NotFound() {
   );
 }
 
-function App() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+function ScrollToTopButton() {
+  const [isVisible, setIsVisible] = useState(false);
 
+  useEffect(() => {
+    const toggleVisibility = () => {
+      if (window.pageYOffset > 300) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    };
+
+    window.addEventListener('scroll', toggleVisibility);
+    return () => window.removeEventListener('scroll', toggleVisibility);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
+  return (
+    <AnimatePresence>
+      {isVisible && (
+        <motion.button
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.5 }}
+          onClick={scrollToTop}
+          className="fixed bottom-8 right-4 w-10 h-10 rounded-full bg-accent text-background-dark flex items-center justify-center shadow-lg hover:bg-accent-dark transition-colors duration-300 z-50"
+          aria-label="Scroll to top"
+          whileHover={{ y: -3 }}
+        >
+          <svg 
+            xmlns="http://www.w3.org/2000/svg" 
+            className="h-5 w-5" 
+            viewBox="0 0 20 20" 
+            fill="currentColor"
+          >
+            <path 
+              fillRule="evenodd" 
+              d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" 
+              clipRule="evenodd" 
+            />
+          </svg>
+        </motion.button>
+      )}
+    </AnimatePresence>
+  );
+}
+
+function SideNavigation() {
+  const navItems = [
+    { 
+      id: 'about', 
+      icon: <FaUser className="w-5 h-5" />, 
+      label: 'About',
+      color: '#4CAF50',
+      bgColor: 'rgba(76, 175, 80, 0.1)'
+    },
+    { 
+      id: 'skills', 
+      icon: <FaCode className="w-5 h-5" />, 
+      label: 'Skills',
+      color: '#2196F3',
+      bgColor: 'rgba(33, 150, 243, 0.1)'
+    },
+    { 
+      id: 'projects', 
+      icon: <FaFolder className="w-5 h-5" />, 
+      label: 'Projects',
+      color: '#FFC107',
+      bgColor: 'rgba(255, 193, 7, 0.1)'
+    },
+    { 
+      id: 'experience', 
+      icon: <FaBriefcase className="w-5 h-5" />, 
+      label: 'Experience',
+      color: '#9C27B0',
+      bgColor: 'rgba(156, 39, 176, 0.1)'
+    },
+    { 
+      id: 'contact', 
+      icon: <FaEnvelope className="w-5 h-5" />, 
+      label: 'Contact',
+      color: '#EA4335',
+      bgColor: 'rgba(234, 67, 53, 0.1)'
+    }
+  ];
+
+  return (
+    <div className="fixed left-8 top-1/2 -translate-y-1/2 z-50 space-y-6">
+      {navItems.map((item) => (
+        <div key={item.id} className="relative group">
+          <a
+            href={`#${item.id}`}
+            className="flex items-center"
+          >
+            <div 
+              className="flex items-center rounded-full transition-all duration-300 overflow-hidden"
+              style={{ 
+                backgroundColor: item.bgColor,
+                border: `2px solid ${item.color}30`
+              }}
+            >
+              <div className="w-12 h-12 flex items-center justify-center">
+                <span 
+                  className="group-hover:scale-110 transition-transform duration-300"
+                  style={{ color: item.color }}
+                >
+                  {item.icon}
+                </span>
+              </div>
+              <div 
+                className="pr-4 pl-1 opacity-0 max-w-0 group-hover:max-w-[100px] group-hover:opacity-100 transition-all duration-300 whitespace-nowrap overflow-hidden"
+                style={{ color: item.color }}
+              >
+                <span className="font-medium">{item.label}</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function App() {
   return (
     <div className="min-h-screen bg-background-dark text-text-light">
       <Helmet>
@@ -815,69 +993,41 @@ function App() {
         <meta name="description" content="Senior Data Engineer with expertise in building scalable data solutions" />
         <meta name="keywords" content="data engineer, ETL, python, AWS, data pipeline" />
       </Helmet>
-      {/* Navigation */}
-      <nav className="fixed w-full z-50 bg-background-dark/80 backdrop-blur-sm">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <a href="#" className="text-2xl font-bold text-text-light">
-            Data<span className="text-accent">Engineer</span>
-          </a>
-          <button
-            aria-label="Open menu"
-            role="button"
-            onClick={() => setIsMenuOpen(true)}
-          >
-            <FaBars className="w-6 h-6" />
-          </button>
-        </div>
-      </nav>
 
-      {/* Menu Overlay */}
-      {isMenuOpen && (
-        <div 
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
-          onClick={() => setIsMenuOpen(false)}
-        />
-      )}
+      {/* Side Navigation */}
+      <SideNavigation />
 
-      {/* Menu */}
-      <Menu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
-
-      {/* Rest of your components */}
+      {/* Main Content */}
       <main>
         <HeroSection />
-        <div className="border-b border-accent/10"></div>
-        
         <AboutSection />
-        <div className="border-b border-accent/10"></div>
-        
         <SkillsSection />
-        <div className="border-b border-accent/10"></div>
-        
         <ProjectsSection />
-        <div class="border-b border-accent/10"></div>
-        
         <ExperienceSection />
-        <div className="border-b border-accent/10"></div>
-        
         <CertificationsSection />
-        <div className="border-b border-accent/10"></div>
-        
         <Suspense fallback={<LoadingSpinner />}>
           <ContactSection />
         </Suspense>
       </main>
 
-      <footer className="py-8 bg-background-darker border-t border-accent/10">
-        <div className="container mx-auto px-4">
-          <div className="flex justify-center items-center">
-            <img 
-              src="https://readme-typing-svg.herokuapp.com/?font=&color=F7F7F7FF&size=25&center=true&vCenter=true&width=500&height=65&duration=5500&lines=Thanks+for+visiting!!!"
-              alt="Thanks for visiting!"
-              className="max-w-full h-auto"
-            />
+      {/* Footer with Copyright */}
+      <footer className="py-8 bg-background-darker">
+        <div className="container mx-auto px-4 text-center">
+          <div className="flex flex-col items-center justify-center space-y-3">
+            <p className="text-2xl md:text-3xl font-extrabold text-text-light font-poppins tracking-wide">
+              Sai kumar K
+            </p>
+            <p className="text-lg md:text-xl font-light text-text-dark font-montserrat tracking-wider">
+              Data Engineer
+            </p>
+            <p className="text-sm text-text-dark mt-2 font-inter">
+              © {new Date().getFullYear()} All rights reserved
+            </p>
           </div>
         </div>
       </footer>
+
+      <ScrollToTopButton />
     </div>
   );
 }

@@ -373,3 +373,42 @@ section:first-of-type {
     typing 2s steps(20, end) forwards,
     blink .75s step-end infinite;
 }
+
+/* Add to src/index.css */
+.nav-tooltip {
+  position: absolute;
+  left: calc(100% + 1rem);
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.nav-item:hover .nav-tooltip {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
+/* Add to your existing styles */
+.nav-tooltip {
+  transform: translateX(-10px);
+  transition: all 0.3s ease;
+}
+
+.group:hover .nav-tooltip {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* Navigation tooltip styles */
+.nav-tooltip {
+  transform: translateX(-10px);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.group:hover .nav-tooltip {
+  transform: translateX(0);
+  opacity: 1;
+}

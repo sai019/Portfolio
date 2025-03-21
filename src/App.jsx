@@ -329,21 +329,21 @@ function CertificationsSection() {
       title: "Azure Data Engineer Associate",
       issuer: "Microsoft",
       date: "2023",
-      icon: <SiMicrosoftazure className="w-8 h-8" />,
+      icon: <SiMicrosoftazure className="w-8 h-8" style={{ color: '#0089D6' }} />,
       link: "#"
     },
     {
       title: "Databricks Certified Data Engineer Professional",
       issuer: "Databricks",
       date: "2023",
-      icon: <SiDatabricks className="w-8 h-8" />,
+      icon: <SiDatabricks className="w-8 h-8" style={{ color: '#FF3621' }} />,
       link: "#"
     },
     {
       title: "AWS Certified Data Analytics - Specialty",
       issuer: "Amazon Web Services",
       date: "2022",
-      icon: <FaAws className="w-8 h-8" />,
+      icon: <FaAws className="w-8 h-8" style={{ color: '#FF9900' }} />,
       link: "#"
     }
   ];
@@ -389,22 +389,22 @@ function MetricsSection() {
     {
       title: "Data Processed",
       value: "500TB+",
-      icon: <FaDatabase className="w-6 h-6" />
+      icon: <FaDatabase className="w-6 h-6" style={{ color: '#2196F3' }} />
     },
     {
       title: "Pipelines Built",
       value: "200+",
-      icon: <FaStream className="w-6 h-6" />
+      icon: <FaStream className="w-6 h-6" style={{ color: '#4CAF50' }} />
     },
     {
       title: "Cost Optimization",
       value: "40%",
-      icon: <FaChartLine className="w-6 h-6" />
+      icon: <FaChartLine className="w-6 h-6" style={{ color: '#FFC107' }} />
     },
     {
       title: "Success Rate",
       value: "99.9%",
-      icon: <FaCheckCircle className="w-6 h-6" />
+      icon: <FaCheckCircle className="w-6 h-6" style={{ color: '#00C853' }} />
     }
   ];
 
@@ -495,7 +495,8 @@ function ExperienceSection() {
             <ul className="space-y-2">
               {exp.achievements.map((achievement, i) => (
                 <li key={i} className="flex items-start space-x-3 group/item hover:text-accent transition-colors">
-                  <span className="w-2 h-2 mt-2 rounded-full bg-text-light group-hover/item:bg-accent group-hover/item:glow transition-all duration-300 flex-shrink-0"></span>
+                  <span className="w-2 h-2 mt-2 rounded-full bg-accent group-hover/item:bg-accent transition-all duration-300 flex-shrink-0" 
+                        style={{ backgroundColor: '#00C853' }}></span>
                   <span className="text-text-light">{achievement}</span>
                 </li>
               ))}
@@ -626,7 +627,7 @@ function AboutSection() {
               <span className="text-text-light">Emphasis on automation and efficiency</span>
             </li>
             <li className="flex items-start space-x-3 group/item">
-              <span className="w-2 h-2 mt-2 rounded-full bg-text-light group-hover/item:bg-accent group-hover/item:glow transition-all duration-300 flex-shrink-0"></span>
+              <span class="w-2 h-2 mt-2 rounded-full bg-text-light group-hover/item:bg-accent group-hover/item:glow transition-all duration-300 flex-shrink-0"></span>
               <span className="text-text-light">Data-driven decision making</span>
             </li>
             <li className="flex items-start space-x-3 group/item">
@@ -663,11 +664,11 @@ function Menu({ isOpen, onClose }) {
         <nav className="mt-16">
           <motion.ul className="space-y-6">
             {[
-              { href: "#about", label: "About", icon: <FaUser className="w-5 h-5" /> },
-              { href: "#skills", label: "Skills", icon: <FaCode className="w-5 h-5" /> },
-              { href: "#projects", label: "Projects", icon: <FaFolder className="w-5 h-5" /> },
-              { href: "#experience", label: "Experience", icon: <FaBriefcase className="w-5 h-5" /> },
-              { href: "#contact", label: "Contact", icon: <FaEnvelope className="w-5 h-5" /> }
+              { href: "#about", label: "About", icon: <FaUser className="w-5 h-5" style={{ color: '#4CAF50' }} /> },
+              { href: "#skills", label: "Skills", icon: <FaCode className="w-5 h-5" style={{ color: '#2196F3' }} /> },
+              { href: "#projects", label: "Projects", icon: <FaFolder className="w-5 h-5" style={{ color: '#FFC107' }} /> },
+              { href: "#experience", label: "Experience", icon: <FaBriefcase className="w-5 h-5" style={{ color: '#9C27B0' }} /> },
+              { href: "#contact", label: "Contact", icon: <FaEnvelope className="w-5 h-5" style={{ color: '#EA4335' }} /> }
             ].map((item, index) => (
               <motion.li
                 key={item.href}
@@ -700,9 +701,9 @@ function Menu({ isOpen, onClose }) {
                 href="https://github.com/yourusername"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-text-dark hover:text-accent transition-colors"
+                className="transition-colors"
               >
-                <FaGithub className="w-6 h-6" />
+                <FaGithub className="w-6 h-6" style={{ color: '#ffffff' }} /> {/* Changed color to white */}
               </motion.a>
               <motion.a
                 whileHover={{ y: -3 }}

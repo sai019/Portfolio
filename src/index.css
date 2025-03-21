@@ -412,3 +412,22 @@ section:first-of-type {
   transform: translateX(0);
   opacity: 1;
 }
+
+/* Add to existing styles */
+@keyframes float {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(10px, -10px); }
+}
+
+.animate-float {
+  animation: float 15s ease-in-out infinite;
+}
+
+.bg-grid {
+  mask-image: linear-gradient(to bottom, transparent, black, transparent);
+}
+
+.diagonal-lines {
+  background-size: 15px 15px;
+  mask-image: linear-gradient(to left, transparent, black);
+}

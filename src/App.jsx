@@ -43,52 +43,77 @@ const standardMotion = {
 function HeroSection() {
   return (
     <section className="min-h-screen relative flex items-center bg-background-dark overflow-hidden">
-      {/* Background Shape */}
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1/2 h-full opacity-10">
-        <svg 
-          viewBox="0 0 800 800" 
-          fill="none" 
-          xmlns="http://www.w3.org/2000/svg"
-          className="w-full h-full"
-        >
-          <path
-            d="M400 0C600 100 700 300 800 400C700 500 600 700 400 800C200 700 100 500 0 400C100 300 200 100 400 0Z"
-            fill="url(#gradient)"
-          >
-            <animate
-              attributeName="d"
-              dur="10s"
-              repeatCount="indefinite"
-              values="M400 0C600 100 700 300 800 400C700 500 600 700 400 800C200 700 100 500 0 400C100 300 200 100 400 0Z;
-                      M400 0C550 150 650 350 700 400C650 450 550 650 400 800C250 650 150 450 100 400C150 350 250 150 400 0Z;
-                      M400 0C600 100 700 300 800 400C700 500 600 700 400 800C200 700 100 500 0 400C100 300 200 100 400 0Z"
-            />
-          </path>
-          <defs>
-            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" style={{ stopColor: '#00ffbb', stopOpacity: 0.2 }} />
-              <stop offset="100%" style={{ stopColor: '#00cc96', stopOpacity: 0.1 }} />
-            </linearGradient>
-          </defs>
-        </svg>
+      {/* Background Design Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Soft Gradient Background */}
+        <div 
+          className="absolute inset-0 opacity-20"
+          style={{
+            background: `radial-gradient(circle at 30% 40%, rgba(0, 255, 187, 0.08), transparent 40%), 
+                radial-gradient(circle at 70% 60%, rgba(0, 255, 187, 0.08), transparent 40%)`
+          }}
+        />
+
+        {/* Minimalistic Floating Elements */}
+        {[...Array(3)].map((_, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0 }}
+            animate={{ 
+              opacity: [0.1, 0.3, 0.1],
+              scale: [1, 1.2, 1],
+              x: [0, 20, 0],
+              y: [0, -20, 0]
+            }}
+            transition={{ 
+              duration: Math.random() * 5 + 10,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: i * 2
+            }}
+            className="absolute rounded-full blur-3xl"
+            style={{
+              width: `${Math.random() * 400 + 200}px`,
+              height: `${Math.random() * 400 + 200}px`,
+              left: `${Math.random() * 70}%`,
+              top: `${Math.random() * 70}%`,
+              background: `rgba(0, 255, 187, 0.03)`,
+              transform: `rotate(${Math.random() * 360}deg)`
+            }}
+          />
+        ))}
+
+        {/* Accent Corner Elements */}
+        <div 
+          className="absolute -top-40 -right-40 w-96 h-96 opacity-[0.03]"
+          style={{
+            background: 'radial-gradient(circle, rgba(0, 255, 187, 0.2) 0%, transparent 70%)'
+          }}
+        />
+        <div 
+          className="absolute -bottom-40 -left-40 w-96 h-96 opacity-[0.03]"
+          style={{
+            background: 'radial-gradient(circle, rgba(0, 255, 187, 0.2) 0%, transparent 70%)'
+          }}
+        />
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          {/* Updated Profile Image */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+          {/* Profile Image */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
-            className="flex justify-center md:justify-center" // Changed from justify-start to justify-center
+            className="flex justify-center"
           >
-            <div className="relative w-[280px] h-[280px] md:w-[350px] md:h-[350px] md:ml-20"> {/* Added ml-20 for margin-left */}
+            <div className="relative w-[200px] h-[200px] md:w-[350px] md:h-[350px]">
               <img
                 src={profilePic}
                 alt="Sai kumar K"
                 className="w-full h-full object-contain rounded-full"
                 style={{ 
-                  filter: 'brightness(1) contrast(1)'  // Reset filters
+                  filter: 'brightness(1) contrast(1)'
                 }}
               />
             </div>
@@ -899,7 +924,7 @@ function ScrollToTopButton() {
           >
             <path 
               fillRule="evenodd" 
-              d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" 
+              d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a 1 1 0 010 1.414z" 
               clipRule="evenodd" 
             />
           </svg>
@@ -909,7 +934,51 @@ function ScrollToTopButton() {
   );
 }
 
-function SideNavigation() {
+function SideNavigation({ navItems }) {
+  return (
+    // Update the positioning and responsive classes
+    <div className="fixed md:left-8 left-4 top-1/2 -translate-y-1/2 z-50 space-y-4 md:space-y-6">
+      {navItems.map((item) => (
+        <div key={item.id} className="relative group">
+          <a
+            href={`#${item.id}`}
+            className="flex items-center"
+          >
+            <div 
+              className="flex items-center rounded-full transition-all duration-300 overflow-hidden"
+              style={{ 
+                backgroundColor: item.bgColor,
+                border: `2px solid ${item.color}30`
+              }}
+            >
+              {/* Smaller size on mobile */}
+              <div className="w-8 h-8 md:w-12 md:h-12 flex items-center justify-center">
+                <span 
+                  className="group-hover:scale-110 transition-transform duration-300 text-sm md:text-base"
+                  style={{ color: item.color }}
+                >
+                  {item.icon}
+                </span>
+              </div>
+              {/* Hide tooltip on mobile */}
+              <div 
+                className="hidden md:block pr-4 pl-1 opacity-0 max-w-0 group-hover:max-w-[100px] group-hover:opacity-100 transition-all duration-300 whitespace-nowrap overflow-hidden"
+                style={{ color: item.color }}
+              >
+                <span className="font-medium">{item.label}</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function App() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Define navItems here so it's accessible to both mobile and desktop navigation
   const navItems = [
     { 
       id: 'about', 
@@ -949,56 +1018,66 @@ function SideNavigation() {
   ];
 
   return (
-    <div className="fixed left-8 top-1/2 -translate-y-1/2 z-50 space-y-6">
-      {navItems.map((item) => (
-        <div key={item.id} className="relative group">
-          <a
-            href={`#${item.id}`}
-            className="flex items-center"
-          >
-            <div 
-              className="flex items-center rounded-full transition-all duration-300 overflow-hidden"
-              style={{ 
-                backgroundColor: item.bgColor,
-                border: `2px solid ${item.color}30`
-              }}
-            >
-              <div className="w-12 h-12 flex items-center justify-center">
-                <span 
-                  className="group-hover:scale-110 transition-transform duration-300"
-                  style={{ color: item.color }}
-                >
-                  {item.icon}
-                </span>
-              </div>
-              <div 
-                className="pr-4 pl-1 opacity-0 max-w-0 group-hover:max-w-[100px] group-hover:opacity-100 transition-all duration-300 whitespace-nowrap overflow-hidden"
-                style={{ color: item.color }}
-              >
-                <span className="font-medium">{item.label}</span>
-              </div>
-            </div>
-          </a>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function App() {
-  return (
     <div className="min-h-screen bg-background-dark text-text-light">
-      <Helmet>
-        <title>Data Engineer Portfolio</title>
-        <meta name="description" content="Senior Data Engineer with expertise in building scalable data solutions" />
-        <meta name="keywords" content="data engineer, ETL, python, AWS, data pipeline" />
-      </Helmet>
+      {/* Mobile Menu Button - Only visible on mobile */}
+      <div className="md:hidden fixed top-4 right-4 z-50">
+        <button
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className="p-2 rounded-lg bg-surface-card border border-accent/10"
+        >
+          <FaBars className="w-6 h-6 text-text-light" />
+        </button>
+      </div>
 
-      {/* Side Navigation */}
-      <SideNavigation />
+      {/* Mobile Menu - Only visible on mobile when open */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, x: 100 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 100 }}
+            className="md:hidden fixed inset-0 z-40 bg-background-dark/95"
+          >
+            <div className="flex flex-col h-full p-4">
+              <button
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="self-end p-2"
+              >
+                <FaTimes className="w-6 h-6 text-text-light" />
+              </button>
+              <nav className="flex flex-col items-center justify-center h-full gap-8">
+                {navItems.map((item) => (
+                  <a
+                    key={item.id}
+                    href={`#${item.id}`}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex items-center gap-3 text-lg group hover:scale-110 transition-transform"
+                    style={{ color: item.color }}
+                  >
+                    <div 
+                      className="p-3 rounded-full transition-colors duration-300"
+                      style={{ backgroundColor: item.bgColor }}
+                    >
+                      {item.icon}
+                    </div>
+                    <span className="font-medium group-hover:translate-x-1 transition-transform">
+                      {item.label}
+                    </span>
+                  </a>
+                ))}
+              </nav>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Desktop Navigation - Hidden on mobile */}
+      <div className="hidden md:block">
+        <SideNavigation navItems={navItems} />
+      </div>
 
       {/* Main Content */}
-      <main>
+      <main className="md:ml-24 ml-4">
         <HeroSection />
         <AboutSection />
         <SkillsSection />
@@ -1010,8 +1089,7 @@ function App() {
         </Suspense>
       </main>
 
-      {/* Footer with Copyright */}
-      <footer className="py-8 bg-background-darker">
+      <footer className="py-8 bg-background-darker md:ml-24 ml-4">
         <div className="container mx-auto px-4 text-center">
           <div className="flex flex-col items-center justify-center space-y-3">
             <p className="text-2xl md:text-3xl font-extrabold text-text-light font-poppins tracking-wide">

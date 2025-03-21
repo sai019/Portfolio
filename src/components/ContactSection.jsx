@@ -21,7 +21,7 @@ function ContactSection() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Email Contact Box */}
             <motion.a
-              href="mailto:john.doe@example.com"
+              href="mailto:saikumarkollu855@gmail.com"
               whileHover={{ y: -5 }}
               className="group block p-6 bg-surface-card backdrop-blur-xs rounded-2xl border border-accent/10 shadow-card hover:shadow-xl transition-all duration-300 glow-effect"
             >
@@ -30,13 +30,13 @@ function ContactSection() {
                   <FaEnvelope className="w-8 h-8 text-accent group-hover:text-accent group-hover:animate-pulse" />
                 </div>
                 <h3 className="text-xl font-semibold text-text-light">Email</h3>
-                <p className="text-text-dark text-sm group-hover:text-accent transition-colors">john.doe@example.com</p>
+                <p className="text-text-dark text-sm group-hover:text-accent transition-colors">saikumarkollu855@gmail.com</p>
               </div>
             </motion.a>
 
             {/* GitHub Contact Box */}
             <motion.a
-              href="https://github.com/yourusername"
+              href="https://github.com/sai019"
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ y: -5 }}
@@ -47,13 +47,13 @@ function ContactSection() {
                   <FaGithub className="w-8 h-8 text-accent group-hover:text-accent group-hover:animate-pulse" />
                 </div>
                 <h3 className="text-xl font-semibold text-text-light">GitHub</h3>
-                <p className="text-text-dark text-sm group-hover:text-accent transition-colors">github.com/yourusername</p>
+                <p className="text-text-dark text-sm group-hover:text-accent transition-colors">github.com/sai019</p>
               </div>
             </motion.a>
 
             {/* LinkedIn Contact Box */}
             <motion.a
-              href="https://linkedin.com/in/yourusername"
+              href="https://linkedin.com/in/saikumarkollu"
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ y: -5 }}
@@ -64,7 +64,7 @@ function ContactSection() {
                   <FaLinkedin className="w-8 h-8 text-accent group-hover:text-accent group-hover:animate-pulse" />
                 </div>
                 <h3 className="text-xl font-semibold text-text-light">LinkedIn</h3>
-                <p className="text-text-dark text-sm group-hover:text-accent transition-colors">linkedin.com/in/yourusername</p>
+                <p className="text-text-dark text-sm group-hover:text-accent transition-colors">linkedin.com/in/saikumarkollu</p>
               </div>
             </motion.a>
           </div>

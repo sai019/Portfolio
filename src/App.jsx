@@ -234,57 +234,48 @@ function ContactForm() {
 function SkillsSection() {
   const skills = [
     {
-      icon: <FaPython className="w-8 h-8" />,
+      icon: <FaPython className="w-8 h-8" style={{ color: '#3776AB' }} />, // Python blue
       title: "Python",
-      description: "Advanced Python development with expertise in data processing, automation, and API development.",
       websiteUrl: "https://www.python.org/"
     },
     {
-      icon: <FaDatabase className="w-8 h-8" />,
+      icon: <FaDatabase className="w-8 h-8" style={{ color: '#336791' }} />, // PostgreSQL blue
       title: "SQL",
-      description: "Expert in SQL database design, optimization, and complex query development.",
       websiteUrl: "https://www.postgresql.org/"
     },
     {
-      icon: <SiApachespark className="w-8 h-8" />,
+      icon: <SiApachespark className="w-8 h-8" style={{ color: '#E25A1C' }} />, // Spark orange
       title: "Apache Spark",
-      description: "Building scalable data processing pipelines and distributed computing solutions.",
       websiteUrl: "https://spark.apache.org/"
     },
     {
-      icon: <SiApacheairflow className="w-8 h-8" />,
+      icon: <SiApacheairflow className="w-8 h-8" style={{ color: '#017CEE' }} />, // Airflow blue
       title: "Apache Airflow",
-      description: "Designing and implementing robust data workflow orchestration.",
       websiteUrl: "https://airflow.apache.org/"
     },
     {
-      icon: <SiApachekafka className="w-8 h-8" />,
+      icon: <SiApachekafka className="w-8 h-8" style={{ color: '#231F20' }} />, // Kafka black
       title: "Apache Kafka",
-      description: "Real-time data streaming and event-driven architecture implementation.",
       websiteUrl: "https://kafka.apache.org/"
     },
     {
-      icon: <SiMicrosoftazure className="w-8 h-8" />,
+      icon: <SiMicrosoftazure className="w-8 h-8" style={{ color: '#0089D6' }} />, // Azure blue
       title: "Microsoft Azure",
-      description: "Cloud infrastructure design and deployment using Azure services.",
       websiteUrl: "https://azure.microsoft.com/"
     },
     {
-      icon: <SiDatabricks className="w-8 h-8" />,
+      icon: <SiDatabricks className="w-8 h-8" style={{ color: '#FF3621' }} />, // Databricks red
       title: "Databricks",
-      description: "Unified analytics platform for large-scale data engineering and machine learning.",
       websiteUrl: "https://www.databricks.com/"
     },
     {
-      icon: <SiGooglecloud className="w-8 h-8" />,
-      title: "Google Cloud Platform",
-      description: "Cloud infrastructure and data platform solutions using GCP services.",
+      icon: <SiGooglecloud className="w-8 h-8" style={{ color: '#4285F4' }} />, // Google Cloud blue
+      title: "Google Cloud",
       websiteUrl: "https://cloud.google.com/"
     },
     {
-      icon: <SiPowerbi className="w-8 h-8" />,
+      icon: <SiPowerbi className="w-8 h-8" style={{ color: '#F2C811' }} />, // Power BI yellow
       title: "Power BI",
-      description: "Business intelligence and data visualization solutions.",
       websiteUrl: "https://powerbi.microsoft.com/"
     }
   ];
@@ -318,7 +309,7 @@ function SkillsSection() {
               rel="noopener noreferrer"
               className="flex items-center space-x-4 group p-4 hover:bg-surface-dark rounded-xl transition-all duration-300"
             >
-              <div className="text-accent group-hover:scale-110 transition-transform duration-300">
+              <div className="group-hover:scale-110 transition-transform duration-300">
                 {skill.icon}
               </div>
               <h3 className="text-lg font-semibold group-hover:text-accent transition-colors">
@@ -878,9 +869,11 @@ function App() {
       <footer className="py-8 bg-background-darker border-t border-accent/10">
         <div className="container mx-auto px-4">
           <div className="flex justify-center items-center">
-            <div className="text-text-dark">
-              <p>&copy; {new Date().getFullYear()} Data Engineer. All rights reserved.</p>
-            </div>
+            <img 
+              src="https://readme-typing-svg.herokuapp.com/?font=&color=F7F7F7FF&size=25&center=true&vCenter=true&width=500&height=65&duration=5500&lines=Thanks+for+visiting!!!"
+              alt="Thanks for visiting!"
+              className="max-w-full h-auto"
+            />
           </div>
         </div>
       </footer>

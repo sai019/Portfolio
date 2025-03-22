@@ -18,7 +18,8 @@ import {
   FaCode,
   FaFolder,
   FaBriefcase,
-  FaHome
+  FaHome,
+  FaDownload
 } from 'react-icons/fa';
 import { 
   SiApachespark, 
@@ -33,6 +34,7 @@ import {
 import { Helmet } from 'react-helmet';
 import profilePic from './assets/Profile_pic.png';
 import Typed from 'typed.js';
+import resumePDF from './assets/sai_kumar_Data_Engineer.pdf';
 
 const standardMotion = {
   initial: { opacity: 0, y: 20 },
@@ -167,24 +169,40 @@ function HeroSection() {
             <p className="text-text-dark text-lg mb-8 max-w-lg">
               Building scalable data solutions and transforming complex data challenges into efficient, actionable insights.
             </p>
-            <div className="flex items-center justify-center md:justify-start space-x-6">
+            
+            {/* Social Links and Download Resume */}
+            <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8">
+              <div className="flex items-center justify-center md:justify-start space-x-6">
+                <motion.a
+                  href="https://github.com/sai019"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-text-light hover:text-accent transition-all duration-300"
+                  whileHover={{ y: -3 }}
+                >
+                  <FaGithub className="w-6 h-6" style={{ color: '#ffffff' }} />
+                </motion.a>
+                <motion.a
+                  href="https://linkedin.com/in/saikumarkollu"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-text-light hover:text-accent transition-all duration-300"
+                  whileHover={{ y: -3 }}
+                >
+                  <FaLinkedin className="w-6 h-6" style={{ color: '#0A66C2' }} />
+                </motion.a>
+              </div>
+              
+              {/* Download Resume Button */}
               <motion.a
-                href="https://github.com/sai019"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-text-light hover:text-accent transition-all duration-300"
+                href={resumePDF}
+                download="Saikumar_K_Resume.pdf"
+                className="inline-flex items-center px-6 py-3 rounded-lg bg-accent text-background-dark font-medium hover:bg-accent-dark transition-all duration-300 shadow-lg hover:shadow-xl"
                 whileHover={{ y: -3 }}
+                whileTap={{ scale: 0.98 }}
               >
-                <FaGithub className="w-6 h-6" style={{ color: '#ffffff' }} />
-              </motion.a>
-              <motion.a
-                href="https://linkedin.com/in/saikumarkollu"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-text-light hover:text-accent transition-all duration-300"
-                whileHover={{ y: -3 }}
-              >
-                <FaLinkedin className="w-6 h-6" style={{ color: '#0A66C2' }} />
+                <FaDownload className="w-5 h-5 mr-2" />
+                Resume
               </motion.a>
             </div>
           </motion.div>
@@ -931,10 +949,17 @@ function ScrollToTopButton() {
   );
 }
 
+// Add this constant at the top of your App.jsx file
+const NAV_THEME = {
+  color: '#98FF98',          // Cool mint
+  hoverColor: '#ADFFAD',     // Lighter mint
+  bgColor: 'rgba(152, 255, 152, 0.1)',
+  borderColor: 'rgba(152, 255, 152, 0.2)'
+};
+
 function SideNavigation({ navItems }) {
   return (
-    // Update the positioning and responsive classes
-    <div className="fixed md:left-8 left-4 top-1/2 -translate-y-1/2 z-50 space-y-4 md:space-y-6">
+    <div className="fixed md:left-6 left-3 top-1/2 -translate-y-1/2 z-50 space-y-3 md:space-y-4">
       {navItems.map((item) => (
         <div key={item.id} className="relative group">
           <a
@@ -942,27 +967,29 @@ function SideNavigation({ navItems }) {
             className="flex items-center"
           >
             <div 
-              className="flex items-center rounded-full transition-all duration-300 overflow-hidden"
+              className="flex items-center rounded-full transition-all duration-300 overflow-hidden hover:bg-white/10"
               style={{ 
-                backgroundColor: item.bgColor,
-                border: `2px solid ${item.color}30`
+                backgroundColor: NAV_THEME.bgColor,
+                border: `1px solid ${NAV_THEME.borderColor}`
               }}
             >
-              {/* Smaller size on mobile */}
-              <div className="w-8 h-8 md:w-12 md:h-12 flex items-center justify-center">
+              <div className="w-7 h-7 md:w-9 md:h-9 flex items-center justify-center">
                 <span 
-                  className="group-hover:scale-110 transition-transform duration-300 text-sm md:text-base"
-                  style={{ color: item.color }}
+                  className="group-hover:scale-110 transition-transform duration-300 text-sm"
+                  style={{ color: NAV_THEME.color }}
                 >
-                  {item.icon}
+                  <div className="w-4 h-4 group-hover:text-[#E2E8F0] transition-colors duration-300">
+                    {item.icon}
+                  </div>
                 </span>
               </div>
-              {/* Hide tooltip on mobile */}
               <div 
-                className="hidden md:block pr-4 pl-1 opacity-0 max-w-0 group-hover:max-w-[100px] group-hover:opacity-100 transition-all duration-300 whitespace-nowrap overflow-hidden"
-                style={{ color: item.color }}
+                className="hidden md:block pr-3 pl-1 opacity-0 max-w-0 group-hover:max-w-[100px] group-hover:opacity-100 transition-all duration-300 whitespace-nowrap overflow-hidden"
+                style={{ color: NAV_THEME.color }}
               >
-                <span className="font-medium">{item.label}</span>
+                <span className="text-sm font-medium group-hover:text-[#E2E8F0] transition-colors duration-300">
+                  {item.label}
+                </span>
               </div>
             </div>
           </a>
@@ -981,43 +1008,43 @@ function App() {
       id: 'home', // Add home as first item
       icon: <FaHome className="w-5 h-5" />, 
       label: 'Home',
-      color: '#FF6B6B', // Choose a distinct color for home
-      bgColor: 'rgba(255, 107, 107, 0.1)'
+      color: '#E6E6FA', // Light gray that matches the dark theme
+      bgColor: 'rgba(230, 230, 250, 0.1)' // Very subtle background
     },
     { 
       id: 'about', 
       icon: <FaUser className="w-5 h-5" />, 
       label: 'About',
-      color: '#4CAF50',
-      bgColor: 'rgba(76, 175, 80, 0.1)'
+      color: '#E6E6FA',
+      bgColor: 'rgba(230, 230, 250, 0.1)'
     },
     { 
       id: 'skills', 
       icon: <FaCode className="w-5 h-5" />, 
       label: 'Skills',
-      color: '#2196F3',
-      bgColor: 'rgba(33, 150, 243, 0.1)'
+      color: '#E6E6FA',
+      bgColor: 'rgba(230, 230, 250, 0.1)'
     },
     { 
       id: 'projects', 
       icon: <FaFolder className="w-5 h-5" />, 
       label: 'Projects',
-      color: '#FFC107',
-      bgColor: 'rgba(255, 193, 7, 0.1)'
+      color: '#E6E6FA',
+      bgColor: 'rgba(230, 230, 250, 0.1)'
     },
     { 
       id: 'experience', 
       icon: <FaBriefcase className="w-5 h-5" />, 
       label: 'Experience',
-      color: '#9C27B0',
-      bgColor: 'rgba(156, 39, 176, 0.1)'
+      color: '#E6E6FA',
+      bgColor: 'rgba(230, 230, 250, 0.1)'
     },
     { 
       id: 'contact', 
       icon: <FaEnvelope className="w-5 h-5" />, 
       label: 'Contact',
-      color: '#EA4335',
-      bgColor: 'rgba(234, 67, 53, 0.1)'
+      color: '#E6E6FA',
+      bgColor: 'rgba(230, 230, 250, 0.1)'
     }
   ];
 

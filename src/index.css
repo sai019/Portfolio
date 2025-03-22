@@ -431,3 +431,31 @@ section:first-of-type {
   background-size: 15px 15px;
   mask-image: linear-gradient(to left, transparent, black);
 }
+
+@keyframes blink {
+  from, to { opacity: 1 }
+  50% { opacity: 0 }
+}
+
+.animate-blink {
+  animation: blink 1s step-end infinite;
+  margin-left: 2px;
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background-color: var(--accent-color);
+}
+
+/* Custom cursor animation */
+.typed-cursor {
+  font-size: 1.5rem;
+  color: var(--accent-color);
+  opacity: 1;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}

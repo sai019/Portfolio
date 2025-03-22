@@ -12,7 +12,7 @@ function ContactSection() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-4xl font-bold mb-4">Let's Connect</h2>
+            <h2 className="text-4xl font-bold mb-4">Contact</h2>
             <p className="text-text-dark text-lg">
               Feel free to get in touch with me. I am always open to discussing new projects, creative ideas or opportunities.
             </p>

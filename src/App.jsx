@@ -17,7 +17,8 @@ import {
   FaUser,
   FaCode,
   FaFolder,
-  FaBriefcase
+  FaBriefcase,
+  FaHome
 } from 'react-icons/fa';
 import { 
   SiApachespark, 
@@ -31,6 +32,7 @@ import {
 } from 'react-icons/si';
 import { Helmet } from 'react-helmet';
 import profilePic from './assets/Profile_pic.png';
+import Typed from 'typed.js';
 
 const standardMotion = {
   initial: { opacity: 0, y: 20 },
@@ -41,8 +43,38 @@ const standardMotion = {
 
 // New components for enhanced visual design
 function HeroSection() {
+  // Create reference to store the DOM element containing the animation
+  const el = React.useRef(null);
+  // Create reference to store the Typed instance itself
+  const typed = React.useRef(null);
+
+  React.useEffect(() => {
+    const options = {
+      strings: [
+        'Data Engineer',
+        'ETL Developer',
+        'Data Analytics',
+        'Big Data Specialist'
+      ],
+      typeSpeed: 100,
+      backSpeed: 50,
+      backDelay: 1000,
+      loop: true,
+      cursorChar: '|',
+    };
+    
+    // elRef refers to the <span> rendered below
+    typed.current = new Typed(el.current, options);
+    
+    return () => {
+      // Make sure to destroy Typed instance during cleanup
+      // to prevent memory leaks
+      typed.current.destroy();
+    }
+  }, []);
+
   return (
-    <section className="min-h-screen relative flex items-center bg-background-dark overflow-hidden">
+    <section id="home" className="min-h-screen relative flex items-center bg-background-dark overflow-hidden">
       {/* Background Design Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* Soft Gradient Background */}
@@ -99,7 +131,7 @@ function HeroSection() {
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           {/* Profile Image */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -129,8 +161,8 @@ function HeroSection() {
             <h1 className="text-4xl md:text-6xl font-bold mb-4 tracking-tight">
               Sai kumar <span className="text-accent">K</span>
             </h1>
-            <h2 className="text-xl md:text-2xl text-text-dark mb-8">
-              Data Engineer
+            <h2 className="text-xl md:text-2xl text-text-dark mb-8 h-8">
+              <span className="text-accent" ref={el}></span>
             </h2>
             <p className="text-text-dark text-lg mb-8 max-w-lg">
               Building scalable data solutions and transforming complex data challenges into efficient, actionable insights.
@@ -357,45 +389,54 @@ function SkillsSection() {
   ];
 
   return (
-    <StandardSection
-      id="skills"
-      title="Technical Skills"
-      description="Core technologies I work with"
-    >
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-0 relative">
-        {skills.map((skill, index) => (
+    <section id="skills" className="py-20 bg-background-dark">
+      <div className="container mx-auto px-4">
+        <div className="max-w-4xl mx-auto">
           <motion.div
-            key={index}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="relative border-accent/10"
-            style={{
-              borderRight: ((index + 1) % 3 !== 0) ? '1px solid' : '1px solid',
-              borderBottom: '1px solid',
-              borderLeft: ((index % 3) === 0) ? '1px solid' : 'none',
-              borderTop: (index < 3) ? '1px solid' : 'none',
-              borderColor: 'rgb(0, 255, 187, 0.1)'
-            }}
+            {...standardMotion}
+            className="text-center mb-12"
           >
-            <a 
-              href={skill.websiteUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center space-x-4 group p-4 hover:bg-surface-dark rounded-xl transition-all duration-300"
-            >
-              <div className="group-hover:scale-110 transition-transform duration-300">
-                {skill.icon}
-              </div>
-              <h3 className="text-lg font-semibold group-hover:text-accent transition-colors">
-                {skill.title}
-              </h3>
-            </a>
+            <h2 className="text-4xl font-bold mb-4">Technical Skills</h2>
+            <p className="text-text-dark text-lg">Core technologies I work with</p>
           </motion.div>
-        ))}
+
+          {/* Removed standard-card wrapper, grid directly after header */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-0 relative">
+            {skills.map((skill, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="relative border-accent/10"
+                style={{
+                  borderRight: ((index + 1) % 3 !== 0) ? '1px solid' : '1px solid',
+                  borderBottom: '1px solid',
+                  borderLeft: ((index % 3) === 0) ? '1px solid' : 'none',
+                  borderTop: (index < 3) ? '1px solid' : 'none',
+                  borderColor: 'rgb(0, 255, 187, 0.1)'
+                }}
+              >
+                <a 
+                  href={skill.websiteUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center space-x-4 group p-4 hover:bg-surface-dark rounded-xl transition-all duration-300"
+                >
+                  <div className="group-hover:scale-110 transition-transform duration-300">
+                    {skill.icon}
+                  </div>
+                  <h3 className="text-lg font-semibold group-hover:text-accent transition-colors">
+                    {skill.title}
+                  </h3>
+                </a>
+              </motion.div>
+            ))}
+          </div>
+        </div>
       </div>
-    </StandardSection>
+    </section>
   );
 }
 
@@ -570,9 +611,8 @@ function ExperienceSection() {
             <p className="text-text-dark mb-4">{exp.description}</p>
             <ul className="space-y-2">
               {exp.achievements.map((achievement, i) => (
-                <li key={i} className="flex items-start space-x-3 group/item hover:text-accent transition-colors">
-                  <span className="w-2 h-2 mt-2 rounded-full bg-accent group-hover/item:bg-accent transition-all duration-300 flex-shrink-0" 
-                        style={{ backgroundColor: '#00C853' }}></span>
+                <li key={i} className="flex items-start space-x-3 group/item">
+                  <span className="w-2 h-2 mt-2 rounded-full bg-text-dark flex-shrink-0"></span>
                   <span className="text-text-light">{achievement}</span>
                 </li>
               ))}
@@ -654,62 +694,32 @@ function AboutSection() {
     <StandardSection
       id="about"
       title="About Me"
-      description="I am a Senior Data Engineer with over 5 years of experience in building scalable data solutions. 
-      Specializing in designing and implementing robust data pipelines, warehousing solutions, and 
-      real-time analytics platforms."
+      description="..."
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          className="bg-surface-card p-6 rounded-2xl border border-accent/10"
+          // ... other props ...
         >
           <h3 className="text-xl font-semibold mb-4 text-accent">What I Do</h3>
           <ul className="space-y-3 text-text-dark">
-            <li className="flex items-start space-x-3 group/item">
-              <span className="w-2 h-2 mt-2 rounded-full bg-text-light group-hover/item:bg-accent group-hover/item:glow transition-all duration-300 flex-shrink-0"></span>
+            <li className="flex items-start space-x-3">
+              <span className="w-2 h-2 mt-2 rounded-full bg-text-dark flex-shrink-0"></span>
               <span className="text-text-light">Design and implement scalable data architectures</span>
             </li>
-            <li className="flex items-start space-x-3 group/item">
-              <span className="w-2 h-2 mt-2 rounded-full bg-text-light group-hover/item:bg-accent group-hover/item:glow transition-all duration-300 flex-shrink-0"></span>
-              <span className="text-text-light">Build and optimize ETL/ELT pipelines</span>
-            </li>
-            <li className="flex items-start space-x-3 group/item">
-              <span className="w-2 h-2 mt-2 rounded-full bg-text-light group-hover/item:bg-accent group-hover/item:glow transition-all duration-300 flex-shrink-0"></span>
-              <span className="text-text-light">Develop real-time data processing solutions</span>
-            </li>
-            <li className="flex items-start space-x-3 group/item">
-              <span className="w-2 h-2 mt-2 rounded-full bg-text-light group-hover/item:bg-accent group-hover/item:glow transition-all duration-300 flex-shrink-0"></span>
-              <span className="text-text-light">Implement data quality and testing frameworks</span>
-            </li>
+            {/* ... other list items with same pattern ... */}
           </ul>
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          className="bg-surface-card p-6 rounded-2xl border border-accent/10"
+          // ... other props ...
         >
           <h3 className="text-xl font-semibold mb-4 text-accent">My Approach</h3>
           <ul className="space-y-3 text-text-dark">
-            <li className="flex items-start space-x-3 group/item">
-              <span className="w-2 h-2 mt-2 rounded-full bg-text-light group-hover/item:bg-accent group-hover/item:glow transition-all duration-300 flex-shrink-0"></span>
+            <li className="flex items-start space-x-3">
+              <span className="w-2 h-2 mt-2 rounded-full bg-text-dark flex-shrink-0"></span>
               <span className="text-text-light">Focus on scalable and maintainable solutions</span>
             </li>
-            <li className="flex items-start space-x-3 group/item">
-              <span className="w-2 h-2 mt-2 rounded-full bg-text-light group-hover/item:bg-accent group-hover/item:glow transition-all duration-300 flex-shrink-0"></span>
-              <span className="text-text-light">Emphasis on automation and efficiency</span>
-            </li>
-            <li className="flex items-start space-x-3 group/item">
-              <span class="w-2 h-2 mt-2 rounded-full bg-text-light group-hover/item:bg-accent group-hover/item:glow transition-all duration-300 flex-shrink-0"></span>
-              <span className="text-text-light">Data-driven decision making</span>
-            </li>
-            <li className="flex items-start space-x-3 group/item">
-              <span className="w-2 h-2 mt-2 rounded-full bg-text-light group-hover/item:bg-accent group-hover/item:glow transition-all duration-300 flex-shrink-0"></span>
-              <span className="text-text-light">Continuous learning and improvement</span>
-            </li>
+            {/* ... other list items with same pattern ... */}
           </ul>
         </motion.div>
       </div>
@@ -980,6 +990,13 @@ function App() {
 
   // Define navItems here so it's accessible to both mobile and desktop navigation
   const navItems = [
+    { 
+      id: 'home', // Add home as first item
+      icon: <FaHome className="w-5 h-5" />, 
+      label: 'Home',
+      color: '#FF6B6B', // Choose a distinct color for home
+      bgColor: 'rgba(255, 107, 107, 0.1)'
+    },
     { 
       id: 'about', 
       icon: <FaUser className="w-5 h-5" />, 

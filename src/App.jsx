@@ -1,4 +1,4 @@
-import React, { useState, useEffect, lazy, Suspense } from 'react';
+import React, { useState, useEffect, lazy, Suspense, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   FaGithub,
@@ -958,44 +958,81 @@ const NAV_THEME = {
 };
 
 function SideNavigation({ navItems }) {
+  const [isVisible, setIsVisible] = useState(true);
+  const hideTimeout = useRef(null);
+
+  useEffect(() => {
+    const showNav = () => {
+      setIsVisible(true);
+      
+      if (hideTimeout.current) {
+        clearTimeout(hideTimeout.current);
+      }
+      
+      hideTimeout.current = setTimeout(() => {
+        setIsVisible(false);
+      }, 1500);
+    };
+
+    window.addEventListener('mousemove', showNav);
+
+    return () => {
+      window.removeEventListener('mousemove', showNav);
+      if (hideTimeout.current) {
+        clearTimeout(hideTimeout.current);
+      }
+    };
+  }, []);
+
   return (
-    <div className="fixed md:left-6 left-3 top-1/2 -translate-y-1/2 z-50 space-y-3 md:space-y-4">
-      {navItems.map((item) => (
-        <div key={item.id} className="relative group">
-          <a
-            href={`#${item.id}`}
-            className="flex items-center"
-          >
-            <div 
-              className="flex items-center rounded-full transition-all duration-300 overflow-hidden hover:bg-white/10"
-              style={{ 
-                backgroundColor: NAV_THEME.bgColor,
-                border: `1px solid ${NAV_THEME.borderColor}`
-              }}
+    <motion.div 
+      className="fixed left-6 top-0 h-screen flex items-center z-50"
+      initial={{ opacity: 1 }}
+      animate={{ 
+        opacity: isVisible ? 1 : 0,
+        x: isVisible ? 0 : -20
+      }}
+      transition={{ duration: 0.3 }}
+    >
+      <div className="flex flex-col gap-4">
+        {navItems.map((item) => (
+          <div key={item.id} className="relative group">
+            <a
+              href={`#${item.id}`}
+              className="flex items-center"
+              onMouseEnter={() => setIsVisible(true)}
             >
-              <div className="w-7 h-7 md:w-9 md:h-9 flex items-center justify-center">
-                <span 
-                  className="group-hover:scale-110 transition-transform duration-300 text-sm"
+              <div 
+                className="flex items-center rounded-full transition-all duration-300 overflow-hidden hover:bg-white/10"
+                style={{ 
+                  backgroundColor: NAV_THEME.bgColor,
+                  border: `1px solid ${NAV_THEME.borderColor}`
+                }}
+              >
+                <div className="w-8 h-8 md:w-9 md:h-9 flex items-center justify-center">
+                  <span 
+                    className="group-hover:scale-110 transition-transform duration-300"
+                    style={{ color: NAV_THEME.color }}
+                  >
+                    <div className="w-4 h-4 group-hover:text-[#E2E8F0] transition-colors duration-300">
+                      {item.icon}
+                    </div>
+                  </span>
+                </div>
+                <div 
+                  className="hidden md:block pr-3 pl-1 opacity-0 max-w-0 group-hover:max-w-[100px] group-hover:opacity-100 transition-all duration-300 whitespace-nowrap overflow-hidden"
                   style={{ color: NAV_THEME.color }}
                 >
-                  <div className="w-4 h-4 group-hover:text-[#E2E8F0] transition-colors duration-300">
-                    {item.icon}
-                  </div>
-                </span>
+                  <span className="text-sm font-medium group-hover:text-[#E2E8F0] transition-colors duration-300">
+                    {item.label}
+                  </span>
+                </div>
               </div>
-              <div 
-                className="hidden md:block pr-3 pl-1 opacity-0 max-w-0 group-hover:max-w-[100px] group-hover:opacity-100 transition-all duration-300 whitespace-nowrap overflow-hidden"
-                style={{ color: NAV_THEME.color }}
-              >
-                <span className="text-sm font-medium group-hover:text-[#E2E8F0] transition-colors duration-300">
-                  {item.label}
-                </span>
-              </div>
-            </div>
-          </a>
-        </div>
-      ))}
-    </div>
+            </a>
+          </div>
+        ))}
+      </div>
+    </motion.div>
   );
 }
 

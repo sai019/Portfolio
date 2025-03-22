@@ -167,7 +167,7 @@ function HeroSection() {
             <p className="text-text-dark text-lg mb-8 max-w-lg">
               Building scalable data solutions and transforming complex data challenges into efficient, actionable insights.
             </p>
-            <div className="flex items-center justify-center md:justify-start space-x-6 mb-8">
+            <div className="flex items-center justify-center md:justify-start space-x-6">
               <motion.a
                 href="https://github.com/sai019"
                 target="_blank"
@@ -187,19 +187,6 @@ function HeroSection() {
                 <FaLinkedin className="w-6 h-6" style={{ color: '#0A66C2' }} />
               </motion.a>
             </div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-            >
-              <a
-                href="#contact"
-                className="inline-flex items-center px-8 py-3 rounded-lg bg-accent text-background-dark font-medium hover:bg-accent-dark transition-colors duration-300"
-              >
-                Get in Touch
-                <FaEnvelope className="ml-2 w-4 h-4" />
-              </a>
-            </motion.div>
           </motion.div>
         </div>
       </div>

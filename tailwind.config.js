@@ -27,8 +27,8 @@ export default {
           900: '#0b4991',
         },
         accent: {
-          DEFAULT: '#00ffbb',
-          dark: '#00cc96',
+          DEFAULT: '#14B8A6', // Teal
+          dark: '#0D9488',    // Darker teal
         },
         background: {
           light: '#ffffff',

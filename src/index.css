@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --accent-color: #00ffbb;
-  --accent-dark: #00cc96;
+  --accent-color: #14B8A6; /* Replace with your chosen color */
+  --accent-dark: #0D9488;  /* Replace with your chosen dark variant */
   color-scheme: dark;
   scroll-behavior: smooth;
   scroll-padding-top: 5rem; /* Add padding for fixed header */

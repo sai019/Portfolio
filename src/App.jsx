@@ -1,5 +1,6 @@
 import React, { useState, useEffect, lazy, Suspense, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import BackgroundDecoration from './components/BackgroundDecoration';
 import { 
   FaGithub,
   FaLinkedin,
@@ -45,9 +46,7 @@ const standardMotion = {
 
 // New components for enhanced visual design
 function HeroSection() {
-  // Create reference to store the DOM element containing the animation
   const el = React.useRef(null);
-  // Create reference to store the Typed instance itself
   const typed = React.useRef(null);
 
   React.useEffect(() => {
@@ -55,158 +54,180 @@ function HeroSection() {
       strings: [
         'Data Engineer',
         'ETL Developer',
-        'Data Analytics',
+        'Data Analytics Expert',
         'Big Data Specialist'
       ],
-      typeSpeed: 100,
-      backSpeed: 50,
-      backDelay: 1000,
+      typeSpeed: 80,
+      backSpeed: 40,
+      backDelay: 1500,
       loop: true,
       cursorChar: '|',
     };
     
-    // elRef refers to the <span> rendered below
     typed.current = new Typed(el.current, options);
-    
-    return () => {
-      // Make sure to destroy Typed instance during cleanup
-      // to prevent memory leaks
-      typed.current.destroy();
-    }
+    return () => typed.current.destroy();
   }, []);
 
+  const profileVariants = {
+    hidden: { scale: 0.8, opacity: 0 },
+    visible: { 
+      scale: 1, 
+      opacity: 1,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        duration: 0.8
+      }
+    }
+  };
+
+  const textVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut"
+      }
+    }
+  };
+
   return (
-    <section id="home" className="min-h-screen relative flex items-center bg-background-dark overflow-hidden">
-      {/* Background Design Elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Soft Gradient Background */}
-        <div 
-          className="absolute inset-0 opacity-20"
-          style={{
-            background: `radial-gradient(circle at 30% 40%, rgba(0, 255, 187, 0.08), transparent 40%), 
-                radial-gradient(circle at 70% 60%, rgba(0, 255, 187, 0.08), transparent 40%)`
-          }}
-        />
-
-        {/* Minimalistic Floating Elements */}
-        {[...Array(3)].map((_, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0 }}
-            animate={{ 
-              opacity: [0.1, 0.3, 0.1],
-              scale: [1, 1.2, 1],
-              x: [0, 20, 0],
-              y: [0, -20, 0]
-            }}
-            transition={{ 
-              duration: Math.random() * 5 + 10,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: i * 2
-            }}
-            className="absolute rounded-full blur-3xl"
-            style={{
-              width: `${Math.random() * 400 + 200}px`,
-              height: `${Math.random() * 400 + 200}px`,
-              left: `${Math.random() * 70}%`,
-              top: `${Math.random() * 70}%`,
-              background: `rgba(0, 255, 187, 0.03)`,
-              transform: `rotate(${Math.random() * 360}deg)`
-            }}
-          />
-        ))}
-
-        {/* Accent Corner Elements */}
-        <div 
-          className="absolute -top-40 -right-40 w-96 h-96 opacity-[0.03]"
-          style={{
-            background: 'radial-gradient(circle, rgba(0, 255, 187, 0.2) 0%, transparent 70%)'
-          }}
-        />
-        <div 
-          className="absolute -bottom-40 -left-40 w-96 h-96 opacity-[0.03]"
-          style={{
-            background: 'radial-gradient(circle, rgba(0, 255, 187, 0.2) 0%, transparent 70%)'
-          }}
-        />
-      </div>
-
-      <div className="container mx-auto px-4 relative z-10">
+    <section id="home" className="relative min-h-screen flex items-center bg-background-dark overflow-hidden">
+      <BackgroundDecoration />
+      
+      <div className="container mx-auto px-4 relative z-10 py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          {/* Profile Image */}
+          {/* Profile Image without Glow Effect */}
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
+            variants={profileVariants}
+            initial="hidden"
+            animate="visible"
             className="flex justify-center"
           >
-            <div className="relative w-[200px] h-[200px] md:w-[350px] md:h-[350px]">
+            <div className="relative w-[150px] h-[150px] md:w-[300px] md:h-[300px]">
               <img
                 src={profilePic}
                 alt="Sai kumar K"
-                className="w-full h-full object-contain rounded-full"
-                style={{ 
-                  filter: 'brightness(1) contrast(1)'
-                }}
+                className="w-full h-full object-contain rounded-full p-2 bg-background-dark"
               />
             </div>
           </motion.div>
 
-          {/* Text Content */}
+          {/* Text Content with Enhanced Animations */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            variants={textVariants}
+            initial="hidden"
+            animate="visible"
             className="text-center md:text-left"
           >
-            <h1 className="text-4xl md:text-6xl font-bold mb-4 tracking-tight">
-              Sai kumar <span className="text-accent">K</span>
-            </h1>
-            <h2 className="text-xl md:text-2xl text-text-dark mb-8 h-8">
-              <span className="text-accent" ref={el}></span>
-            </h2>
-            <p className="text-text-dark text-lg mb-8 max-w-lg">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+            >
+              <h1 className="text-4xl md:text-6xl font-bold mb-4 tracking-tight">
+                Sai kumar <span className="text-gradient">K</span>
+              </h1>
+              <h2 className="text-xl md:text-2xl text-text-dark mb-8">
+                <span className="text-accent" ref={el}></span>
+              </h2>
+            </motion.div>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="text-text-dark text-lg mb-8 max-w-lg mx-auto md:mx-0"
+            >
               Building scalable data solutions and transforming complex data challenges into efficient, actionable insights.
-            </p>
+            </motion.p>
             
-            {/* Social Links and Download Resume */}
-            <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8">
+            {/* Social Links and Resume Button */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+              className="flex flex-col md:flex-row items-center gap-6 md:gap-8"
+            >
               <div className="flex items-center justify-center md:justify-start space-x-6">
                 <motion.a
                   href="https://github.com/sai019"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-text-light hover:text-accent transition-all duration-300"
-                  whileHover={{ y: -3 }}
+                  className="social-icon-link group"
+                  whileHover={{ y: -4 }}
+                  whileTap={{ scale: 0.95 }}
                 >
-                  <FaGithub className="w-6 h-6" style={{ color: '#ffffff' }} />
+                  <div className="p-3 rounded-full bg-surface-dark border border-accent/10 group-hover:border-accent/30 transition-all duration-300">
+                    <FaGithub className="w-6 h-6 text-white group-hover:text-accent transition-colors" />
+                  </div>
                 </motion.a>
                 <motion.a
                   href="https://linkedin.com/in/saikumarkollu"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-text-light hover:text-accent transition-all duration-300"
-                  whileHover={{ y: -3 }}
+                  className="social-icon-link group"
+                  whileHover={{ y: -4 }}
+                  whileTap={{ scale: 0.95 }}
                 >
-                  <FaLinkedin className="w-6 h-6" style={{ color: '#0A66C2' }} />
+                  <div className="p-3 rounded-full bg-surface-dark border border-accent/10 group-hover:border-accent/30 transition-all duration-300">
+                    <FaLinkedin className="w-6 h-6 text-[#0A66C2] group-hover:text-accent transition-colors" />
+                  </div>
                 </motion.a>
               </div>
               
-              {/* Download Resume Button */}
               <motion.a
                 href={resumePDF}
                 download="Saikumar_K_Resume.pdf"
                 className="inline-flex items-center px-6 py-3 rounded-lg bg-accent text-background-dark font-medium hover:bg-accent-dark transition-all duration-300 shadow-lg hover:shadow-xl"
-                whileHover={{ y: -3 }}
-                whileTap={{ scale: 0.98 }}
+                whileHover={{ 
+                  y: -4,
+                  boxShadow: "0 4px 20px rgba(20, 184, 166, 0.3)"
+                }}
+                whileTap={{ scale: 0.95 }}
               >
                 <FaDownload className="w-5 h-5 mr-2" />
-                Resume
+                Download Resume
               </motion.a>
-            </div>
+            </motion.div>
           </motion.div>
         </div>
+
+        {/* Scroll Indicator with adjusted position */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.2 }}
+          className="absolute bottom-2 left-1/2 transform -translate-x-1/2 mb-4"
+        >
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{
+              duration: 1.5,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+            className="flex flex-col items-center"
+          >
+            <span className="text-text-dark text-sm mb-2">Scroll to explore</span>
+            <div className="w-1 h-8 rounded-full bg-accent/20 relative">
+              <motion.div
+                animate={{ 
+                  y: [0, 28, 0],
+                  opacity: [1, 0.2, 1]
+                }}
+                transition={{
+                  duration: 1.5,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+                className="absolute top-0 w-full h-2 rounded-full bg-accent"
+              />
+            </div>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );
